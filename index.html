@@ -17,10 +17,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: background 1s ease; /* 🌟 让换主题的时候背景色平滑渐变过度 */
+            transition: background 1s ease;
         }
 
-        /* 🌟 4套高级浪漫主题的背景色定义 */
+        /* 4套高级浪漫主题的背景色定义 */
         body.theme-galaxy {
             background: linear-gradient(135deg, #1e1b4b 0%, #311042 40%, #fbcfe8 100%);
         }
@@ -45,16 +45,17 @@
             z-index: 1;
         }
 
-        /* 主体奶油质感卡片 */
+        /* 苹果原生态毛玻璃卡片 */
         .main-card {
             width: 90%;
             max-width: 420px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
-            border: 4px solid #ffffff;
+            background: rgba(255, 255, 255, 0.45); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 32px;
+            border: 1.5px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15),
+                        0 20px 50px rgba(0, 0, 0, 0.15); 
             padding: 2.5rem 1.5rem 2rem;
             text-align: center;
             z-index: 10;
@@ -62,55 +63,29 @@
             box-sizing: border-box;
         }
 
-        <div class="character-heads" style="
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-bottom: -15px; /* 让它们往下坐一点，正好压在白色卡片边框上 */
-    position: relative;
-    z-index: 10;
-">
-    <div class="doraemon" style="width: 65px; height: 65px; position: relative; bottom: -5px;">
-        <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <circle cx="50" cy="55" r="40" fill="#35a7e9" stroke="#333" stroke-width="2.5"/>
-            <circle cx="50" cy="59" r="32" fill="#fff" stroke="#333" stroke-width="2"/>
-            <ellipse cx="43" cy="38" rx="7" ry="9" fill="#fff" stroke="#333" stroke-width="2"/>
-            <ellipse cx="57" cy="38" rx="7" ry="9" fill="#fff" stroke="#333" stroke-width="2"/>
-            <circle cx="45" cy="38" r="2" fill="#333"/>
-            <circle cx="55" cy="38" r="2" fill="#333"/>
-            <circle cx="50" cy="47" r="5" fill="#e31d1a" stroke="#333" stroke-width="2"/>
-            <circle cx="48" cy="45" r="1.5" fill="#fff"/> <path d="M50,52 L50,72" stroke="#333" stroke-width="2"/>
-            <path d="M25,60 Q50,82 75,60" fill="none" stroke="#333" stroke-width="2"/>
-            <path d="M28,48 L12,46 M26,54 L10,55 M28,60 L12,64" stroke="#333" stroke-width="2"/>
-            <path d="M72,48 L88,46 M74,54 L90,55 M72,60 L88,64" stroke="#333" stroke-width="2"/>
-            <path d="M20,83 Q50,92 80,83" fill="none" stroke="#e31d1a" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="50" cy="87" r="5.5" fill="#f4ee3c" stroke="#333" stroke-width="2"/>
-            <circle cx="50" cy="86" r="1" fill="#333"/>
-            <line x1="46" y1="88" x2="54" y2="88" stroke="#333" stroke-width="1.5"/>
-        </svg>
-    </div>
+        /* 顶部的两只可爱猫咪 */
+        .cats-box {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 12;
+        }
 
-    <div class="hello-kitty" style="width: 65px; height: 65px; position: relative; bottom: -5px;">
-        <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <path d="M20,75 Q10,50 15,35 Q18,15 35,22 Q50,15 65,22 Q82,15 85,35 Q90,50 80,75 C80,75 20,75 20,75 Z" fill="#fff" stroke="#333" stroke-width="2.5"/>
-            <ellipse cx="38" cy="46" rx="3.5" ry="5" fill="#231f20"/>
-            <ellipse cx="62" cy="46" rx="3.5" ry="5" fill="#231f20"/>
-            <ellipse cx="50" cy="53" rx="4.5" ry="3" fill="#fbc02d"/>
-            <path d="M22,46 L6,44 M20,52 L4,53 M22,58 L6,62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-            <path d="M78,46 L94,44 M80,52 L96,53 M78,58 L96,62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-            <g transform="translate(62, 16)">
-                <ellipse cx="3" cy="11" rx="8" ry="6" fill="#e31d1a" stroke="#333" stroke-width="2" transform="rotate(-15)"/>
-                <ellipse cx="17" cy="5" rx="8" ry="6" fill="#e31d1a" stroke="#333" stroke-width="2" transform="rotate(15)"/>
-                <circle cx="10" cy="8" r="4.5" fill="#e31d1a" stroke="#333" stroke-width="2"/>
-            </g>
-        </svg>
-    </div>
-</div>
+        .cat {
+            width: 60px;
+            height: 70px;
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+        .cat-right {
+            animation-delay: -1.5s;
+        }
 
-
-        /* 标题文字 - 完美保护两边星星不丢失 */
+        /* 标题文字 */
         h1 {
-            color: #ff6b81;
+            color: #d63031; 
             margin: 15px 0 5px 0;
             padding: 0 10px;
             box-sizing: border-box;
@@ -120,29 +95,37 @@
             gap: 6px;
             font-size: clamp(1.1rem, 4.5vw, 1.4rem); 
             white-space: nowrap;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8), 0 1px 1px rgba(0, 0, 0, 0.1);
         }
 
+        /* 副标题 */
         .subtitle {
-            color: #a4b0be;
-            font-size: 0.85rem;
+            color: #2c3e50; 
+            font-size: 0.9rem;
             margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
         }
 
         /* 恋爱计时器 */
         .timer-box {
-            background: #fff6f6;
-            border: 2px dashed #ffb6b9;
+            background: rgba(255, 255, 255, 0.65); 
+            border: 2px dashed rgba(214, 48, 49, 0.6);
             border-radius: 16px;
             padding: 12px;
             margin-bottom: 1.8rem;
-            color: #ff6b81;
+            color: #d63031; 
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
         }
         .timer-box span {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin: 0 4px;
-            color: #ff4757;
+            color: #ff2a3a;
+            font-weight: 800;
+            text-shadow: 0 1px 0 #fff;
         }
 
         /* 菜单按钮容器 */
@@ -152,57 +135,63 @@
             gap: 12px;
         }
 
-        /* 经典的超省心Q弹链接按钮 */
+        /* 按钮链接样式 */
         .menu-btn {
             display: block;
             text-decoration: none;
-            background: #ffffff;
-            color: #ff7675;
-            border: 2px solid #ffb6b9;
-            padding: 12px;
+            background: rgba(255, 255, 255, 0.8); 
+            color: #c0392b; 
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            padding: 13px;
             border-radius: 50px;
             font-size: 1rem;
             font-weight: bold;
-            box-shadow: 0 4px 0 #ffb6b9;
-            transition: all 0.1s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .menu-btn:hover {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #ffb6b9;
-            background: #fffbfb;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 6px 20px rgba(214, 48, 49, 0.2);
+            color: #d63031;
         }
 
         .menu-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #ffb6b9;
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(214, 48, 49, 0.1);
         }
 
-        /* 🌟 主题切换按钮区域 */
+        /* 主题切换按钮区域 */
         .theme-switcher {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 1.5rem 0 0.5rem 0;
+            gap: 14px;
+            margin: 1.6rem 0 0.6rem 0;
         }
 
         /* 主题小圆点 */
         .theme-dot {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             border: 2px solid #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: transform 0.2s ease;
         }
         .theme-dot:hover {
-            transform: scale(1.2);
+            transform: scale(1.25);
         }
 
+        /* 底部版权小字 */
         .footer {
-            font-size: 0.75rem;
-            color: #ffb6b9;
+            font-size: 0.8rem;
+            color: #34495e;
+            font-weight: bold;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
         /* 漂浮心形动画 */
@@ -226,7 +215,9 @@
         }
     </style>
 </head>
-<body class="theme-galaxy" id="my-body"> <div class="deco-container" id="deco-box"></div>
+<body class="theme-classic" id="my-body">
+
+    <div class="deco-container" id="deco-box"></div>
 
     <div class="main-card">
         
@@ -260,15 +251,11 @@
             💕 我们已经在一起 <span id="days-counter">0</span> 天啦
         </div>
 
-                <div class="menu-list">
-            <a href="story.html" class="menu-btn">📩 点击开启：我的第一视角情书</a>
+        <div class="menu-list">
+            <a href="story.html" class="menu-btn">💌 点击开启：我的第一视角情书</a>
             <a href="dabing.html" class="menu-btn">🥞 点击进入：今日份浪漫大饼</a>
             <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 点击解锁：未完待续的秘密</a>
-    
-        
-    </div>
-
-</script>
+        </div>
 
         <div class="theme-switcher">
             <div class="theme-dot" style="background: linear-gradient(#1e1b4b, #fbcfe8);" onclick="changeTheme('theme-galaxy')" title="星空极光"></div>
@@ -281,7 +268,7 @@
     </div>
 
     <script>
-        // 精准配置2月21日（填写1代表2月）
+        // 2月21日纪念日（填写1代表2月）
         var anniversary = new Date(2026, 1, 21); 
 
         function updateTimer() {
@@ -297,14 +284,10 @@
             document.getElementById('days-counter').innerHTML = diffDays;
         }
 
-        // 🌟 核心：换主题并将其记忆在浏览器本地的逻辑
         function changeTheme(themeName) {
             var body = document.getElementById('my-body');
-            // 清除之前的旧主题类名
             body.className = '';
-            // 给 body 赋予新主题类名
             body.classList.add(themeName);
-            // 写入本地缓存锁死，这样下次再开还是这个颜色
             localStorage.setItem('my_love_theme', themeName);
         }
 
@@ -329,15 +312,16 @@
             }, 800);
         }
 
-        // 网页初始化执行
         window.onload = function() {
             updateTimer();
             createDeco();
             
-            // 🌟 自动检查上次存过的主题，有的话就自动帮她应用上
+            // 🌟 关键点 2：自动加载检查，如果本地没存过主题，默认用经典奶油粉
             var savedTheme = localStorage.getItem('my_love_theme');
             if(savedTheme) {
                 changeTheme(savedTheme);
+            } else {
+                changeTheme('theme-classic');
             }
         };
     </script>
