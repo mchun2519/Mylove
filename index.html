@@ -238,50 +238,9 @@
             <a href="story.html" class="menu-btn">📩 点击开启：我的第一视角情书</a>
             <a href="dabing.html" class="menu-btn">🥞 点击进入：今日份浪漫大饼</a>
             <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 点击解锁：未完待续的秘密</a>
-            <a href="#vcomments-box" class="menu-btn" style="background: linear-gradient(45deg, #ff9a9e, #fecfef);">🌸 点击进入：专属小树洞 ➔</a>
-        </div>
-    </div> <div id="vcomments-box" style="
-        max-width: 350px; 
-        margin: 50px auto 30px auto; 
-        padding: 20px; 
-        background: rgba(255, 255, 255, 0.85); 
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 24px; 
-        box-shadow: 0 10px 30px rgba(255, 117, 140, 0.15);
-        border: 2px solid #fff;
-    ">
-        <h3 style="text-align: center; color: #ff758c; margin-top: 0; margin-bottom: 15px; font-size: 16px; letter-spacing: 1px; font-family: sans-serif;">
-            ✨ 我们的专属小树洞 ✨
-        </h3>
-        <div id="vcomments"></div>
+    
+        
     </div>
-
-    <script src="https://unpkg.com/valine@1.4.18/dist/Valine.min.js"></script>
-
-    <script>
-        // 初始化留言板
-        new Valine({
-            el: '#vcomments',
-            appId: 'h7G0XmX7bVq76l7p8o90-gzGzoHsz', 
-            appKey: 'y8X8o8P8q8W8e8R8t8Y',
-            placeholder: '在这里写下你想对我说的话吧... 💗',
-            avatar: 'mp', 
-            pageSize: 5,  
-            lang: 'zh-cn', 
-            requiredFields: ['nick'], 
-            meta: ['nick'], 
-            recordIP: false
-        });
-
-        // 解决未完待续按钮的小弹窗函数（防止报错导致页面卡死）
-        function meowAlert(e) {
-            e.preventDefault();
-            alert("🐾 这是我们的秘密基地，更多浪漫还在加载中...等我把它们一页页补齐。");
-        }
-    </script>
-</body>
-</html>
 
 </script>
 
