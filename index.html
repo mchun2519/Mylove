@@ -62,25 +62,51 @@
             box-sizing: border-box;
         }
 
-        /* 顶部的两只可爱猫咪 */
-        .cats-box {
-            position: absolute;
-            top: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 12;
-        }
+        <div class="character-heads" style="
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: -15px; /* 让它们往下坐一点，正好压在白色卡片边框上 */
+    position: relative;
+    z-index: 10;
+">
+    <div class="doraemon" style="width: 65px; height: 65px; position: relative; bottom: -5px;">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="55" r="40" fill="#35a7e9" stroke="#333" stroke-width="2.5"/>
+            <circle cx="50" cy="59" r="32" fill="#fff" stroke="#333" stroke-width="2"/>
+            <ellipse cx="43" cy="38" rx="7" ry="9" fill="#fff" stroke="#333" stroke-width="2"/>
+            <ellipse cx="57" cy="38" rx="7" ry="9" fill="#fff" stroke="#333" stroke-width="2"/>
+            <circle cx="45" cy="38" r="2" fill="#333"/>
+            <circle cx="55" cy="38" r="2" fill="#333"/>
+            <circle cx="50" cy="47" r="5" fill="#e31d1a" stroke="#333" stroke-width="2"/>
+            <circle cx="48" cy="45" r="1.5" fill="#fff"/> <path d="M50,52 L50,72" stroke="#333" stroke-width="2"/>
+            <path d="M25,60 Q50,82 75,60" fill="none" stroke="#333" stroke-width="2"/>
+            <path d="M28,48 L12,46 M26,54 L10,55 M28,60 L12,64" stroke="#333" stroke-width="2"/>
+            <path d="M72,48 L88,46 M74,54 L90,55 M72,60 L88,64" stroke="#333" stroke-width="2"/>
+            <path d="M20,83 Q50,92 80,83" fill="none" stroke="#e31d1a" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="50" cy="87" r="5.5" fill="#f4ee3c" stroke="#333" stroke-width="2"/>
+            <circle cx="50" cy="86" r="1" fill="#333"/>
+            <line x1="46" y1="88" x2="54" y2="88" stroke="#333" stroke-width="1.5"/>
+        </svg>
+    </div>
 
-        .cat {
-            width: 60px;
-            height: 70px;
-            animation: sway 3s ease-in-out infinite alternate;
-        }
-        .cat-right {
-            animation-delay: -1.5s;
-        }
+    <div class="hello-kitty" style="width: 65px; height: 65px; position: relative; bottom: -5px;">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M20,75 Q10,50 15,35 Q18,15 35,22 Q50,15 65,22 Q82,15 85,35 Q90,50 80,75 C80,75 20,75 20,75 Z" fill="#fff" stroke="#333" stroke-width="2.5"/>
+            <ellipse cx="38" cy="46" rx="3.5" ry="5" fill="#231f20"/>
+            <ellipse cx="62" cy="46" rx="3.5" ry="5" fill="#231f20"/>
+            <ellipse cx="50" cy="53" rx="4.5" ry="3" fill="#fbc02d"/>
+            <path d="M22,46 L6,44 M20,52 L4,53 M22,58 L6,62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+            <path d="M78,46 L94,44 M80,52 L96,53 M78,58 L96,62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+            <g transform="translate(62, 16)">
+                <ellipse cx="3" cy="11" rx="8" ry="6" fill="#e31d1a" stroke="#333" stroke-width="2" transform="rotate(-15)"/>
+                <ellipse cx="17" cy="5" rx="8" ry="6" fill="#e31d1a" stroke="#333" stroke-width="2" transform="rotate(15)"/>
+                <circle cx="10" cy="8" r="4.5" fill="#e31d1a" stroke="#333" stroke-width="2"/>
+            </g>
+        </svg>
+    </div>
+</div>
+
 
         /* 标题文字 - 完美保护两边星星不丢失 */
         h1 {
