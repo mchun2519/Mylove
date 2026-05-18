@@ -16,7 +16,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* 替换为日系樱花粉色调背景 */
             background-color: #ffe6eb;
             background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
             overflow: hidden;
@@ -33,7 +32,7 @@
             z-index: 1;
         }
 
-        /* 新版主卡片：去除毛玻璃，改为白底 */
+        /* 主卡片容器 */
         .main-card {
             width: 85%;
             max-width: 380px;
@@ -56,23 +55,26 @@
             position: relative;
         }
 
-        /* 顶部的两只可爱猫咪 - 调整位置骑在标头上 */
+        /* 探头猫咪容器：调整位置刚好扒在边上 */
         .cats-box {
             position: absolute;
-            top: -55px;
+            top: -59px; /* 让底部刚好贴合卡片边缘 */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 20px;
             z-index: 12;
+            align-items: flex-end;
         }
+        
         .cat {
-            width: 55px;
-            height: 65px;
-            animation: sway 3s ease-in-out infinite alternate;
+            width: 75px;
+            height: 60px;
+            transform-origin: bottom center; /* 动画从底部开始摇晃，探头更生动 */
+            animation: sway 2.5s ease-in-out infinite alternate;
         }
         .cat-right {
-            animation-delay: -1.5s;
+            animation-delay: -1.2s; /* 让两个小家伙摇晃错开 */
         }
 
         /* 标头文字 */
@@ -90,7 +92,6 @@
             text-align: center;
         }
 
-        /* 浪漫文案 */
         .subtitle {
             color: #555;
             font-size: 0.95rem;
@@ -108,7 +109,7 @@
             margin-bottom: 25px;
         }
         .days-circle {
-            background: #ff6b81; /* 红色圆圈 */
+            background: #ff6b81;
             color: #fff;
             width: 45px;
             height: 45px;
@@ -122,14 +123,13 @@
             box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
 
-        /* 菜单按钮容器：改成2x2网格 */
+        /* 菜单按钮容器：2x2网格 */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-        /* 按钮小方块样式 */
         .menu-btn {
             display: flex;
             align-items: center;
@@ -138,7 +138,7 @@
             text-decoration: none;
             background: #fff;
             color: #555;
-            border: 1.5px solid #ffe4e1; /* 浅粉色边框 */
+            border: 1.5px solid #ffe4e1; 
             padding: 12px 0;
             border-radius: 16px;
             font-size: 0.95rem;
@@ -156,7 +156,6 @@
             transform: translateY(1px);
         }
 
-        /* 底部版权小字 */
         .footer {
             margin-top: 25px;
             font-size: 0.8rem;
@@ -164,7 +163,6 @@
             text-align: center;
         }
 
-        /* 漂浮心形动画 */
         .float-love {
             position: absolute;
             font-size: 1.2rem;
@@ -172,10 +170,10 @@
             animation: floatUp 4s linear forwards;
         }
 
-        /* === 基础动画定义 === */
+        /* === 动画定义 === */
         @keyframes sway {
-            0% { transform: rotate(-5deg); }
-            100% { transform: rotate(5deg); }
+            0% { transform: rotate(-6deg); }
+            100% { transform: rotate(6deg); }
         }
 
         @keyframes floatUp {
@@ -193,26 +191,57 @@
         
         <div class="card-header">
             <div class="cats-box">
-                <svg class="cat cat-left" viewBox="0 0 60 70">
-                    <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffccd5"/>
-                    <polygon points="12,25 22,12 25,25" fill="#ffccd5"/>
-                    <polygon points="48,25 38,12 35,25" fill="#ffccd5"/>
-                    <circle cx="23" cy="38" r="3" fill="#4a373a"/>
-                    <circle cx="37" cy="38" r="3" fill="#4a373a"/>
-                    <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
-                    <circle cx="18" cy="42" r="3" fill="#ffb6b9"/>
-                    <circle cx="42" cy="42" r="3" fill="#ffb6b9"/>
+                
+                <svg class="cat cat-left" viewBox="0 0 100 80">
+                    <defs>
+                        <clipPath id="cut-bottom">
+                            <rect x="0" y="0" width="100" height="80"/>
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#cut-bottom)">
+                        <path d="M 10 80 C 10 10, 90 10, 90 80 Z" fill="#00a0e9"/>
+                        <path d="M 20 80 C 20 35, 80 35, 80 80 Z" fill="#ffffff"/>
+                        <ellipse cx="38" cy="38" rx="13" ry="16" fill="#ffffff" stroke="#333" stroke-width="1.5"/>
+                        <ellipse cx="62" cy="38" rx="13" ry="16" fill="#ffffff" stroke="#333" stroke-width="1.5"/>
+                        <circle cx="43" cy="42" r="3.5" fill="#333"/>
+                        <circle cx="57" cy="42" r="3.5" fill="#333"/>
+                        <circle cx="50" cy="52" r="7" fill="#e3001b" stroke="#333" stroke-width="1.5"/>
+                        <circle cx="47" cy="49" r="2.5" fill="#ffffff"/> 
+                        <line x1="50" y1="59" x2="50" y2="80" stroke="#333" stroke-width="1.5"/>
+                        <line x1="22" y1="52" x2="38" y2="56" stroke="#333" stroke-width="1.5"/>
+                        <line x1="20" y1="60" x2="38" y2="60" stroke="#333" stroke-width="1.5"/>
+                        <line x1="22" y1="68" x2="38" y2="64" stroke="#333" stroke-width="1.5"/>
+                        <line x1="78" y1="52" x2="62" y2="56" stroke="#333" stroke-width="1.5"/>
+                        <line x1="80" y1="60" x2="62" y2="60" stroke="#333" stroke-width="1.5"/>
+                        <line x1="78" y1="68" x2="62" y2="64" stroke="#333" stroke-width="1.5"/>
+                    </g>
                 </svg>
-                <svg class="cat cat-right" viewBox="0 0 60 70">
-                    <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffffff"/>
-                    <polygon points="12,25 22,12 25,25" fill="#ffffff"/>
-                    <polygon points="48,25 38,12 35,25" fill="#ffffff"/>
-                    <circle cx="23" cy="38" r="3" fill="#4a373a"/>
-                    <circle cx="37" cy="38" r="3" fill="#4a373a"/>
-                    <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
-                    <circle cx="18" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
-                    <circle cx="42" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
+
+                <svg class="cat cat-right" viewBox="0 0 100 80">
+                    <defs>
+                        <clipPath id="cut-bottom-hk">
+                            <rect x="0" y="0" width="100" height="80"/>
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#cut-bottom-hk)">
+                        <polygon points="15,45 22,10 45,28" fill="#ffffff"/>
+                        <polygon points="85,45 78,10 55,28" fill="#ffffff"/>
+                        <ellipse cx="50" cy="58" rx="44" ry="33" fill="#ffffff"/>
+                        <ellipse cx="78" cy="30" rx="10" ry="8" fill="#ff0000" transform="rotate(-15 78 30)"/>
+                        <ellipse cx="62" cy="35" rx="10" ry="8" fill="#ff0000" transform="rotate(15 62 35)"/>
+                        <circle cx="70" cy="33" r="6" fill="#ffcc00"/>
+                        <ellipse cx="32" cy="58" rx="4" ry="6" fill="#333"/>
+                        <ellipse cx="68" cy="58" rx="4" ry="6" fill="#333"/>
+                        <ellipse cx="50" cy="65" rx="5" ry="3.5" fill="#ffcc00" stroke="#333" stroke-width="1"/>
+                        <line x1="6" y1="50" x2="18" y2="54" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="4" y1="58" x2="18" y2="58" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="6" y1="66" x2="18" y2="62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="94" y1="50" x2="82" y2="54" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="96" y1="58" x2="82" y2="58" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="94" y1="66" x2="82" y2="62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                    </g>
                 </svg>
+
             </div>
             <h1 class="header-title">时女士 ❤ 朱先生</h1>
         </div>
@@ -236,7 +265,6 @@
     </div>
 
     <script>
-        // 纪念日计算逻辑完整保留（2月21日）
         var anniversary = new Date(2026, 1, 21); 
 
         function updateTimer() {
@@ -257,7 +285,6 @@
             alert("施工提示：这里以后用来放我们的甜蜜合照哦！");
         }
 
-        // 背景漂浮物逻辑保留并换了点更浪漫的emoji
         function createDeco() {
             var container = document.getElementById('deco-box');
             var icons = ['🌸', '✨', '☁️', '🎀', '💖'];
