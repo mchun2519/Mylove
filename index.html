@@ -19,6 +19,36 @@
             background-color: #ffe6eb;
             background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
             overflow: hidden;
+            position: relative;
+        }
+
+        /* 动态背景装饰层（全屏） */
+        .deco-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1; /* 放在卡片下面 */
+            overflow: hidden;
+        }
+
+        /* 漂浮动画元素 */
+        .float-item {
+            position: absolute;
+            bottom: -30px;
+            pointer-events: none;
+            opacity: 0;
+            animation: float-up linear forwards;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.4));
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
 
         /* 主卡片容器 */
@@ -30,7 +60,8 @@
             box-shadow: 0 10px 30px rgba(255, 154, 162, 0.3);
             display: flex;
             flex-direction: column;
-            margin-top: 60px; /* 给顶部的猫咪留出空间 */
+            margin-top: 60px; 
+            z-index: 10; /* 保证卡片在漂浮物上面 */
         }
 
         /* 顶部粉色渐变标头 */
@@ -43,13 +74,13 @@
             position: relative; 
         }
 
-        /* 👑 核心：纯代码画的双人互动 SVG 容器 */
+        /* 👑 纯代码画的双人互动 SVG 容器 */
         .cats-box {
             position: absolute;
-            top: -108px; /* 向上拔出，让底部切面刚好贴合卡片 */
+            top: -108px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 240px; /* 画布宽度，确保两人都能装下 */
+            width: 240px; 
             height: 110px;
             z-index: 20; 
         }
@@ -60,11 +91,11 @@
             50% { transform: scale(1.15); }
         }
         .heart-beat-group {
-            transform-origin: 120px 75px; /* 以爱心中心点缩放 */
+            transform-origin: 120px 75px; 
             animation: heart-beat 1.2s ease-in-out infinite;
         }
 
-        /* 整体呼吸动画，更有生命力 */
+        /* 整体呼吸动画 */
         .cats-box svg {
             animation: breathe 3s ease-in-out infinite alternate;
         }
@@ -88,11 +119,27 @@
             text-align: center;
         }
 
+        /* 真心话排版 */
         .subtitle {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* 两句话的间距 */
+        }
+
+        /* 第一句话：强制一行显示 */
+        .line-one {
+            color: #666;
+            font-size: 0.85rem;
+            white-space: nowrap; /* 关键：强制不换行 */
+            overflow: visible;
+        }
+
+        /* 第二句话：加粗强调 */
+        .line-two {
             color: #555;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: bold;
         }
 
         /* 恋爱计时器 */
@@ -148,14 +195,25 @@
             border-color: #ffb6c1;
             color: #ff6b81;
         }
+
+        /* 底部温柔小字 */
+        .footer {
+            margin-top: 25px;
+            font-size: 0.7rem;
+            color: #b0a4a6; /* 非常柔和的淡紫/灰粉色 */
+            text-align: center;
+            line-height: 1.6;
+            padding: 0 5px;
+        }
     </style>
 </head>
 <body>
 
+    <div class="deco-container" id="deco-box"></div>
+
     <div class="main-card">
         
         <div class="card-header">
-            
             <div class="cats-box">
                 <svg viewBox="0 0 240 110" width="100%" height="100%">
                     <defs>
@@ -167,29 +225,23 @@
                     <g clip-path="url(#sit-flat)">
                         <rect x="30" y="80" width="80" height="50" rx="30" fill="#00a0e9" />
                         <circle cx="70" cy="115" r="30" fill="#fff" />
-                        
                         <path d="M 90 95 Q 105 90 110 85" fill="none" stroke="#00a0e9" stroke-width="12" stroke-linecap="round"/>
                         <circle cx="110" cy="85" r="7" fill="#fff" stroke="#333" stroke-width="1.2"/>
-
                         <circle cx="70" cy="48" r="42" fill="#00a0e9" />
                         <circle cx="70" cy="56" r="34" fill="#fff" />
-                        
                         <rect x="35" y="86" width="70" height="7" rx="3.5" fill="#e3001b" />
                         <circle cx="70" cy="95" r="8" fill="#fce300" stroke="#333" stroke-width="1.2"/>
                         <line x1="64" y1="92" x2="76" y2="92" stroke="#333" stroke-width="1.2"/>
                         <circle cx="70" cy="96" r="1.5" fill="#333"/>
                         <line x1="70" y1="96" x2="70" y2="103" stroke="#333" stroke-width="1.2"/>
-
                         <ellipse cx="56" cy="30" rx="14" ry="17" fill="#fff" stroke="#333" stroke-width="1.5"/>
                         <ellipse cx="84" cy="30" rx="14" ry="17" fill="#fff" stroke="#333" stroke-width="1.5"/>
                         <circle cx="63" cy="30" r="3" fill="#333" />
                         <circle cx="88" cy="30" r="3" fill="#333" />
-
                         <circle cx="70" cy="43" r="6" fill="#e3001b" stroke="#333" stroke-width="1.2"/>
                         <circle cx="68" cy="41" r="2" fill="#fff" />
                         <line x1="70" y1="49" x2="70" y2="70" stroke="#333" stroke-width="1.2"/>
                         <path d="M 45 60 Q 70 80 95 60" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
-
                         <line x1="32" y1="50" x2="52" y2="52" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
                         <line x1="30" y1="60" x2="52" y2="60" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
                         <line x1="32" y1="70" x2="52" y2="68" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
@@ -197,25 +249,19 @@
                         <line x1="110" y1="60" x2="88" y2="60" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
                         <line x1="108" y1="70" x2="88" y2="68" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
 
-
                         <rect x="135" y="85" width="70" height="50" rx="25" fill="#ff6b81" />
-                        
                         <path d="M 150 95 Q 135 90 130 85" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
-
                         <polygon points="135,60 145,18 165,35" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
                         <polygon points="205,60 195,18 175,35" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
                         <ellipse cx="170" cy="62" rx="46" ry="34" fill="#fff" />
-
                         <g transform="translate(195, 30) rotate(15)">
                             <ellipse cx="-12" cy="0" rx="12" ry="9" fill="#e3001b" />
                             <ellipse cx="12" cy="0" rx="12" ry="9" fill="#e3001b" />
                             <circle cx="0" cy="0" r="6" fill="#fce300" />
                         </g>
-
                         <ellipse cx="148" cy="65" rx="3.5" ry="5.5" fill="#333" />
                         <ellipse cx="192" cy="65" rx="3.5" ry="5.5" fill="#333" />
                         <ellipse cx="170" cy="74" rx="5.5" ry="4" fill="#fce300" stroke="#333" stroke-width="1"/>
-
                         <line x1="118" y1="58" x2="136" y2="61" stroke="#333" stroke-width="2" stroke-linecap="round"/>
                         <line x1="116" y1="68" x2="136" y2="68" stroke="#333" stroke-width="2" stroke-linecap="round"/>
                         <line x1="118" y1="78" x2="136" y2="75" stroke="#333" stroke-width="2" stroke-linecap="round"/>
@@ -231,7 +277,6 @@
                                      C 140 58, 126 54, 120 62 Z" 
                                   fill="#e3001b" stroke="#fff" stroke-width="2"/>
                         </g>
-
                     </g>
                 </svg>
             </div>
@@ -240,7 +285,10 @@
         </div>
 
         <div class="card-content">
-            <div class="subtitle">我不是很会说话，但我有一句真心话想对你说：<br><b>我今天比昨天更喜欢你了。</b></div>
+            <div class="subtitle">
+                <div class="line-one">我不是很会说话，但我有一句真心话想对你说：</div>
+                <div class="line-two">我今天比昨天更喜欢你了。</div>
+            </div>
 
             <div class="timer-box">
                 我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
@@ -252,6 +300,8 @@
                 <a href="#" class="menu-btn">🐾 秘密</a>
                 <a href="#" class="menu-btn">🌸 树洞</a> 
             </div>
+            
+            <div class="footer">🔒 这里原本是我们私藏的温柔一隅，但若不小心被第三个人窥见，便赠予你同等的幸福与祝愿。</div>
         </div>
     </div>
 
@@ -271,8 +321,38 @@
             document.getElementById('days-counter').innerHTML = diffDays;
         }
 
+        // 🌟 新增：生成浪漫漂浮物的特效函数
+        function createDeco() {
+            var container = document.getElementById('deco-box');
+            // 浪漫元素合集：花朵、闪烁星星、泡泡、爱心
+            var icons = ['🌸', '✨', '🫧', '💖', '⭐', '💕', '🎈'];
+            
+            setInterval(function() {
+                var item = document.createElement('div');
+                item.className = 'float-item';
+                // 随机水平位置
+                item.style.left = Math.random() * 100 + '%';
+                // 随机抽取一个图标
+                item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                
+                // 随机大小 (12px 到 24px)
+                var size = Math.random() * 12 + 12;
+                item.style.fontSize = size + 'px';
+                
+                // 随机漂浮速度 (4秒 到 8秒，有快有慢更自然)
+                var duration = Math.random() * 4 + 4;
+                item.style.animationDuration = duration + 's';
+
+                container.appendChild(item);
+
+                // 动画结束后自动清理 DOM
+                setTimeout(function() { item.remove(); }, duration * 1000);
+            }, 500); // 每 0.5 秒生成一个
+        }
+
         window.onload = function() {
             updateTimer();
+            createDeco(); // 启动漂浮特效
         };
     </script>
 </body>
