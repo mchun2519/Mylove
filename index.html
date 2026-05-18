@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 朱时茂的恋爱秘密基地 🎀</title>
+    <title>🎀 我们的恋爱秘密基地 🎀</title>
     <style>
         /* 全局基础样式 */
         body, html {
@@ -11,27 +11,15 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: background 1s ease;
-        }
-
-        /* 4套高级浪漫主题的背景色定义 */
-        body.theme-galaxy {
-            background: linear-gradient(135deg, #1e1b4b 0%, #311042 40%, #fbcfe8 100%);
-        }
-        body.theme-sunset {
-            background: linear-gradient(135deg, #4c1d95 0%, #b45309 50%, #fef3c7 100%);
-        }
-        body.theme-mint {
-            background: linear-gradient(135deg, #064e3b 0%, #0284c7 60%, #e0f2fe 100%);
-        }
-        body.theme-classic {
-            background: linear-gradient(180deg, #fff0f5 0%, #ffe4e1 100%);
+            /* 替换为日系樱花粉色调背景 */
+            background-color: #ffe6eb;
+            background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
+            overflow: hidden;
         }
 
         /* 动态背景装饰层 */
@@ -45,153 +33,135 @@
             z-index: 1;
         }
 
-        /* 苹果原生态毛玻璃卡片 */
+        /* 新版主卡片：去除毛玻璃，改为白底 */
         .main-card {
-            width: 90%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.45); 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 32px;
-            border: 1.5px solid rgba(255, 255, 255, 0.6); 
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15),
-                        0 20px 50px rgba(0, 0, 0, 0.15); 
-            padding: 2.5rem 1.5rem 2rem;
-            text-align: center;
+            width: 85%;
+            max-width: 380px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(255, 154, 162, 0.3);
             z-index: 10;
             position: relative;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 顶部的两只可爱猫咪 */
+        /* 顶部粉色渐变标头 */
+        .card-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 24px 24px 0 0;
+            padding: 30px 15px 15px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        /* 顶部的两只可爱猫咪 - 调整位置骑在标头上 */
         .cats-box {
             position: absolute;
-            top: -70px;
+            top: -55px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
+            gap: 15px;
             z-index: 12;
         }
-
         .cat {
-            width: 60px;
-            height: 70px;
+            width: 55px;
+            height: 65px;
             animation: sway 3s ease-in-out infinite alternate;
         }
         .cat-right {
             animation-delay: -1.5s;
         }
 
-        /* 标题文字 */
-        h1 {
-            color: #d63031; 
-            margin: 15px 0 5px 0;
-            padding: 0 10px;
-            box-sizing: border-box;
+        /* 标头文字 */
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+
+        /* 卡片下半部分内容区 */
+        .card-content {
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        /* 浪漫文案 */
+        .subtitle {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* 恋爱计时器（红圈白字设计） */
+        .timer-box {
+            color: #333;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            font-size: clamp(1.1rem, 4.5vw, 1.4rem); 
-            white-space: nowrap;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8), 0 1px 1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
         }
-
-        /* 副标题 */
-        .subtitle {
-            color: #2c3e50; 
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+        .days-circle {
+            background: #ff6b81; /* 红色圆圈 */
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
             font-weight: bold;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-            letter-spacing: 0.5px;
+            margin: 0 10px;
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
 
-        /* 恋爱计时器 */
-        .timer-box {
-            background: rgba(255, 255, 255, 0.65); 
-            border: 2px dashed rgba(214, 48, 49, 0.6);
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 1.8rem;
-            color: #d63031; 
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        .timer-box span {
-            font-size: 1.6rem;
-            margin: 0 4px;
-            color: #ff2a3a;
-            font-weight: 800;
-            text-shadow: 0 1px 0 #fff;
+        /* 菜单按钮容器：改成2x2网格 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
-        /* 菜单按钮容器 */
-        .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* 按钮链接样式 */
+        /* 按钮小方块样式 */
         .menu-btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.8); 
-            color: #c0392b; 
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
-            padding: 13px;
-            border-radius: 50px;
-            font-size: 1rem;
+            background: #fff;
+            color: #555;
+            border: 1.5px solid #ffe4e1; /* 浅粉色边框 */
+            padding: 12px 0;
+            border-radius: 16px;
+            font-size: 0.95rem;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.15);
             transition: all 0.2s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
         }
-
         .menu-btn:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 6px 20px rgba(214, 48, 49, 0.2);
-            color: #d63031;
+            background: #fff0f5;
+            border-color: #ffb6c1;
+            color: #ff6b81;
         }
-
         .menu-btn:active {
             transform: translateY(1px);
-            box-shadow: 0 2px 10px rgba(214, 48, 49, 0.1);
-        }
-
-        /* 主题切换按钮区域 */
-        .theme-switcher {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin: 1.6rem 0 0.6rem 0;
-        }
-
-        /* 主题小圆点 */
-        .theme-dot {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .theme-dot:hover {
-            transform: scale(1.25);
         }
 
         /* 底部版权小字 */
         .footer {
+            margin-top: 25px;
             font-size: 0.8rem;
-            color: #34495e;
-            font-weight: bold;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+            color: #999;
+            text-align: center;
         }
 
         /* 漂浮心形动画 */
@@ -215,60 +185,58 @@
         }
     </style>
 </head>
-<body class="theme-classic" id="my-body">
+<body>
 
     <div class="deco-container" id="deco-box"></div>
 
     <div class="main-card">
         
-        <div class="cats-box">
-            <svg class="cat cat-left" viewBox="0 0 60 70">
-                <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffccd5"/>
-                <polygon points="12,25 22,12 25,25" fill="#ffccd5"/>
-                <polygon points="48,25 38,12 35,25" fill="#ffccd5"/>
-                <circle cx="23" cy="38" r="3" fill="#4a373a"/>
-                <circle cx="37" cy="38" r="3" fill="#4a373a"/>
-                <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
-                <circle cx="18" cy="42" r="3" fill="#ffb6b9"/>
-                <circle cx="42" cy="42" r="3" fill="#ffb6b9"/>
-            </svg>
-            <svg class="cat cat-right" viewBox="0 0 60 70">
-                <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffffff"/>
-                <polygon points="12,25 22,12 25,25" fill="#ffffff"/>
-                <polygon points="48,25 38,12 35,25" fill="#ffffff"/>
-                <circle cx="23" cy="38" r="3" fill="#4a373a"/>
-                <circle cx="37" cy="38" r="3" fill="#4a373a"/>
-                <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
-                <circle cx="18" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
-                <circle cx="42" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
-            </svg>
+        <div class="card-header">
+            <div class="cats-box">
+                <svg class="cat cat-left" viewBox="0 0 60 70">
+                    <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffccd5"/>
+                    <polygon points="12,25 22,12 25,25" fill="#ffccd5"/>
+                    <polygon points="48,25 38,12 35,25" fill="#ffccd5"/>
+                    <circle cx="23" cy="38" r="3" fill="#4a373a"/>
+                    <circle cx="37" cy="38" r="3" fill="#4a373a"/>
+                    <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
+                    <circle cx="18" cy="42" r="3" fill="#ffb6b9"/>
+                    <circle cx="42" cy="42" r="3" fill="#ffb6b9"/>
+                </svg>
+                <svg class="cat cat-right" viewBox="0 0 60 70">
+                    <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffffff"/>
+                    <polygon points="12,25 22,12 25,25" fill="#ffffff"/>
+                    <polygon points="48,25 38,12 35,25" fill="#ffffff"/>
+                    <circle cx="23" cy="38" r="3" fill="#4a373a"/>
+                    <circle cx="37" cy="38" r="3" fill="#4a373a"/>
+                    <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
+                    <circle cx="18" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
+                    <circle cx="42" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
+                </svg>
+            </div>
+            <h1 class="header-title">时女士 ❤ 朱先生</h1>
         </div>
 
-        <h1>✨ 时女士与朱先生的专属平行宇宙 ✨</h1>
-        <div class="subtitle">我不是很会说话，但我有一句真心话想对你说：我今天比昨天更喜欢你了。</div>
+        <div class="card-content">
+            <div class="subtitle">我不是很会说话，但我有一句真心话想对你说：<br><b>我今天比昨天更喜欢你了。</b></div>
 
-        <div class="timer-box">
-            💕 我们已经在一起 <span id="days-counter">0</span> 天啦
+            <div class="timer-box">
+                我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
+            </div>
+
+            <div class="menu-grid">
+                <a href="story.html" class="menu-btn">📩 故事</a>
+                <a href="dabing.html" class="menu-btn">🥞 大饼</a>
+                <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 秘密</a>
+                <a href="#" class="menu-btn" onclick="meowAlert(event)">🌸 树洞</a> 
+            </div>
+            
+            <div class="footer">🔒 未完待续，浪漫大饼...</div>
         </div>
-
-        <div class="menu-list">
-            <a href="story.html" class="menu-btn">💌 点击开启：我的第一视角情书</a>
-            <a href="dabing.html" class="menu-btn">🥞 点击进入：今日份浪漫大饼</a>
-            <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 点击解锁：未完待续的秘密</a>
-        </div>
-
-        <div class="theme-switcher">
-            <div class="theme-dot" style="background: linear-gradient(#1e1b4b, #fbcfe8);" onclick="changeTheme('theme-galaxy')" title="星空极光"></div>
-            <div class="theme-dot" style="background: linear-gradient(#4c1d95, #fef3c7);" onclick="changeTheme('theme-sunset')" title="复古落日"></div>
-            <div class="theme-dot" style="background: linear-gradient(#064e3b, #e0f2fe);" onclick="changeTheme('theme-mint')" title="薄荷夏夜"></div>
-            <div class="theme-dot" style="background: linear-gradient(#fff0f5, #ffe4e1);" onclick="changeTheme('theme-classic')" title="经典奶油"></div>
-        </div>
-
-        <div class="footer">🔒 这里原本是我们私藏的温柔一隅，但若不小心被第三个人窥见，便赠予你同等的幸福与祝愿</div>
     </div>
 
     <script>
-        // 2月21日纪念日（填写1代表2月）
+        // 纪念日计算逻辑完整保留（2月21日）
         var anniversary = new Date(2026, 1, 21); 
 
         function updateTimer() {
@@ -284,21 +252,15 @@
             document.getElementById('days-counter').innerHTML = diffDays;
         }
 
-        function changeTheme(themeName) {
-            var body = document.getElementById('my-body');
-            body.className = '';
-            body.classList.add(themeName);
-            localStorage.setItem('my_love_theme', themeName);
-        }
-
         function meowAlert(e) {
             e.preventDefault();
             alert("施工提示：这里以后用来放我们的甜蜜合照哦！");
         }
 
+        // 背景漂浮物逻辑保留并换了点更浪漫的emoji
         function createDeco() {
             var container = document.getElementById('deco-box');
-            var icons = ['🌸', '✨', '☁️', '🎈', '❤️'];
+            var icons = ['🌸', '✨', '☁️', '🎀', '💖'];
             
             setInterval(function() {
                 var item = document.createElement('div');
@@ -309,20 +271,12 @@
                 container.appendChild(item);
 
                 setTimeout(function() { item.remove(); }, 4000);
-            }, 800);
+            }, 1000);
         }
 
         window.onload = function() {
             updateTimer();
             createDeco();
-            
-            // 🌟 关键点 2：自动加载检查，如果本地没存过主题，默认用经典奶油粉
-            var savedTheme = localStorage.getItem('my_love_theme');
-            if(savedTheme) {
-                changeTheme(savedTheme);
-            } else {
-                changeTheme('theme-classic');
-            }
         };
     </script>
 </body>
