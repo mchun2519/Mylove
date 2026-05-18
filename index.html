@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎀 我们的恋爱秘密基地 🎀</title>
+    <style>
+        /* 全局基础样式 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background 1s ease; /* 🌟 让换主题的时候背景色平滑渐变过度 */
+        }
+
+        /* 🌟 4套高级浪漫主题的背景色定义 */
+        body.theme-galaxy {
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 40%, #fbcfe8 100%);
+        }
+        body.theme-sunset {
+            background: linear-gradient(135deg, #4c1d95 0%, #b45309 50%, #fef3c7 100%);
+        }
+        body.theme-mint {
+            background: linear-gradient(135deg, #064e3b 0%, #0284c7 60%, #e0f2fe 100%);
+        }
+        body.theme-classic {
+            background: linear-gradient(180deg, #fff0f5 0%, #ffe4e1 100%);
+        }
+
+        /* 动态背景装饰层 */
+        .deco-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 主体奶油质感卡片 */
+        .main-card {
+            width: 90%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+            border: 4px solid #ffffff;
+            padding: 2.5rem 1.5rem 2rem;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* 顶部的两只可爱猫咪 */
+        .cats-box {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 12;
+        }
+
+        .cat {
+            width: 60px;
+            height: 70px;
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+        .cat-right {
+            animation-delay: -1.5s;
+        }
+
+        /* 标题文字 - 完美保护两边星星不丢失 */
+        h1 {
+            color: #ff6b81;
+            margin: 15px 0 5px 0;
+            padding: 0 10px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: clamp(1.1rem, 4.5vw, 1.4rem); 
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            color: #a4b0be;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 恋爱计时器 */
+        .timer-box {
+            background: #fff6f6;
+            border: 2px dashed #ffb6b9;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 1.8rem;
+            color: #ff6b81;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .timer-box span {
+            font-size: 1.5rem;
+            margin: 0 4px;
+            color: #ff4757;
+        }
+
+        /* 菜单按钮容器 */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 经典的超省心Q弹链接按钮 */
+        .menu-btn {
+            display: block;
+            text-decoration: none;
+            background: #ffffff;
+            color: #ff7675;
+            border: 2px solid #ffb6b9;
+            padding: 12px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #ffb6b9;
+            transition: all 0.1s ease;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #ffb6b9;
+            background: #fffbfb;
+        }
+
+        .menu-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #ffb6b9;
+        }
+
+        /* 🌟 主题切换按钮区域 */
+        .theme-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        /* 主题小圆点 */
+        .theme-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .theme-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .footer {
+            font-size: 0.75rem;
+            color: #ffb6b9;
+        }
+
+        /* 漂浮心形动画 */
+        .float-love {
+            position: absolute;
+            font-size: 1.2rem;
+            pointer-events: none;
+            animation: floatUp 4s linear forwards;
+        }
+
+        /* === 基础动画定义 === */
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+            10% { opacity: 0.8; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1.2); }
+        }
+    </style>
+</head>
+<body class="theme-galaxy" id="my-body"> <div class="deco-container" id="deco-box"></div>
+
+    <div class="main-card">
+        
+        <div class="cats-box">
+            <svg class="cat cat-left" viewBox="0 0 60 70">
+                <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffccd5"/>
+                <polygon points="12,25 22,12 25,25" fill="#ffccd5"/>
+                <polygon points="48,25 38,12 35,25" fill="#ffccd5"/>
+                <circle cx="23" cy="38" r="3" fill="#4a373a"/>
+                <circle cx="37" cy="38" r="3" fill="#4a373a"/>
+                <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
+                <circle cx="18" cy="42" r="3" fill="#ffb6b9"/>
+                <circle cx="42" cy="42" r="3" fill="#ffb6b9"/>
+            </svg>
+            <svg class="cat cat-right" viewBox="0 0 60 70">
+                <path d="M10 40 Q 10 15 30 15 Q 50 15 50 40 L 50 70 L 10 70 Z" fill="#ffffff"/>
+                <polygon points="12,25 22,12 25,25" fill="#ffffff"/>
+                <polygon points="48,25 38,12 35,25" fill="#ffffff"/>
+                <circle cx="23" cy="38" r="3" fill="#4a373a"/>
+                <circle cx="37" cy="38" r="3" fill="#4a373a"/>
+                <path d="M28 44 Q 30 46 32 44" fill="none" stroke="#4a373a" stroke-width="2"/>
+                <circle cx="18" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
+                <circle cx="42" cy="42" r="3" fill="#ffb6b9" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <h1>✨ 时女士与朱先生的专属平行宇宙 ✨</h1>
+        <div class="subtitle">今天也是超级超级喜欢你的一天</div>
+
+        <div class="timer-box">
+            💕 我们已经在一起 <span id="days-counter">0</span> 天啦
+        </div>
+
+        <div class="menu-list">
+            <a href="story.html" class="menu-btn">💌 点击开启：我的第一视角情书</a>
+            <a href="dabing.html" class="menu-btn">🥞 点击进入：今日份浪漫大饼</a>
+            <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 点击解锁：未完待续的秘密</a>
+        </div>
+
+        <div class="theme-switcher">
+            <div class="theme-dot" style="background: linear-gradient(#1e1b4b, #fbcfe8);" onclick="changeTheme('theme-galaxy')" title="星空极光"></div>
+            <div class="theme-dot" style="background: linear-gradient(#4c1d95, #fef3c7);" onclick="changeTheme('theme-sunset')" title="复古落日"></div>
+            <div class="theme-dot" style="background: linear-gradient(#064e3b, #e0f2fe);" onclick="changeTheme('theme-mint')" title="薄荷夏夜"></div>
+            <div class="theme-dot" style="background: linear-gradient(#fff0f5, #ffe4e1);" onclick="changeTheme('theme-classic')" title="经典奶油"></div>
+        </div>
+
+        <div class="footer">🔒 这是一个只有我们两个人的地方</div>
+    </div>
+
+    <script>
+        // 精准配置2月21日（填写1代表2月）
+        var anniversary = new Date(2026, 1, 21); 
+
+        function updateTimer() {
+            var now = new Date();
+            now.setHours(0,0,0,0);
+            var start = new Date(anniversary);
+            start.setHours(0,0,0,0);
+            
+            var diffTime = now - start;
+            var diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays < 0) diffDays = 0;
+            
+            document.getElementById('days-counter').innerHTML = diffDays;
+        }
+
+        // 🌟 核心：换主题并将其记忆在浏览器本地的逻辑
+        function changeTheme(themeName) {
+            var body = document.getElementById('my-body');
+            // 清除之前的旧主题类名
+            body.className = '';
+            // 给 body 赋予新主题类名
+            body.classList.add(themeName);
+            // 写入本地缓存锁死，这样下次再开还是这个颜色
+            localStorage.setItem('my_love_theme', themeName);
+        }
+
+        function meowAlert(e) {
+            e.preventDefault();
+            alert("施工提示：这里以后用来放我们的甜蜜合照哦！");
+        }
+
+        function createDeco() {
+            var container = document.getElementById('deco-box');
+            var icons = ['🌸', '✨', '☁️', '🎈', '❤️'];
+            
+            setInterval(function() {
+                var item = document.createElement('div');
+                item.className = 'float-love';
+                item.style.left = (Math.random() * 100) + '%';
+                item.style.bottom = '0%';
+                item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                container.appendChild(item);
+
+                setTimeout(function() { item.remove(); }, 4000);
+            }, 800);
+        }
+
+        // 网页初始化执行
+        window.onload = function() {
+            updateTimer();
+            createDeco();
+            
+            // 🌟 自动检查上次存过的主题，有的话就自动帮她应用上
+            var savedTheme = localStorage.getItem('my_love_theme');
+            if(savedTheme) {
+                changeTheme(savedTheme);
+            }
+        };
+    </script>
+</body>
+</html>
