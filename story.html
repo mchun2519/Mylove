@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ 给温柔小福星的一封情书 ✨</title>
+    <style>
+       /* 全局样式：深邃夜空与浪漫渐变 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0b132b 0%, #1c2541 50%, #3b224c 100%);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 背景流星与星空层 */
+        .star-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 浪漫情书卡片：玻璃拟态质感 */
+        .love-card {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            z-index: 10;
+            animation: cardAppear 1.5s ease-out;
+            box-sizing: border-box;
+        }
+
+        /* 顶部悬浮的爱心标头 */
+        .heart-icon {
+            font-size: 2.5rem;
+            color: #ff4757;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite alternate;
+            display: inline-block;
+        }
+
+        /* 打字机文字展示区域 */
+        .text-container {
+            min-height: 120px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #f1f5f9;
+            text-align: left;
+            margin-bottom: 2rem;
+            white-space: pre-line; /* 保持换行 */
+        }
+
+        /* 下一步浪漫按钮 */
+        .action-btn {
+            background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .action-btn.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.6);
+        }
+
+        /* 互动产生的漂浮爱心 */
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #ff6b81;
+            pointer-events: none;
+            animation: heartFly 1.2s ease-out forwards;
+            z-index: 100;
+        }
+
+        /* 动态流星 */
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, transparent);
+            animation: meteorShower 3s linear infinite;
+            opacity: 0;
+        }
+
+        /* === 动画核心样式 === */
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(255,71,87,0.4)); }
+            100% { transform: scale(1.15); filter: drop-shadow(0 0 12px rgba(255,71,87,0.8)); }
+        }
+
+        @keyframes heartFly {
+            0% { opacity: 1; transform: translateY(0) scale(0.6) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-160px) scale(1.4) rotate(45deg); }
+        }
+
+        @keyframes meteorShower {
+            0% { opacity: 0; transform: translate(0,0) rotate(-45deg) scaleX(0); }
+            10% { opacity: 1; transform: translate(-20px,20px) rotate(-45deg) scaleX(20); }
+            100% { opacity: 0; transform: translate(-150px,150px) rotate(-45deg) scaleX(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="star-background" id="sky"></div>
+
+    <div class="love-card">
+        <div class="heart-icon">❤️</div>
+        <div class="text-container" id="text-box"></div>
+        <button class="action-btn" id="next-btn" onclick="handleNext(event)">拆开下一页</button>
+    </div>
+
+    <script>
+        //文案
+        const loveLetters = [
+"哈喽！你来啦，关于“相见恨晚”这四个字，我想在这里，一页一页讲给你听，你准备好拆开了吗？💗",
+
+"与其跟你规划那些遥不可及的未来，或者是用那些虚无的大话哄你开心。\n\n现在的我，更想在每个温度刚好的傍晚，能和你手拉手去散步👫。",
+            
+"还记得龙亭湖边那天傍晚的风，很温柔🌆，那天聊了好多很开心很开心😄",
+
+"未来我们的家🏠，不用很大，但一定要很暖☀️。\n\n阳台上养几盆你喜欢的花花草草🌸（你的小斑马被你照顾的很好，但是我的焦绿不知道咋样了已经一个多月没给他浇水了）",
+
+"还有沙发上要堆满软糯的可爱抱枕😊。\n\n嘎，Ennn一想到你那么多的“嫁妆”，沙发上房间里都放不下，安置他们也是个忧郁的问题",
+
+"不过想到以后我们还会喝好多好喝的奶茶跟咖啡，他们的文创袋子都在等着你收集，还要抓好多好多好看的娃娃就很幸福🥰",
+            
+"在你下班累了回家的时候，桌上或许总有一碗刚出锅，冒着热气的汤🍜（注意，这个汤🥣是泛指食物，知道你不喜欢喝汤）（话说超级无敌至尊泡面什么时候我能有口福吃上，我想吃荷包蛋🥚）",
+            
+"如果生活偶尔下了雨🌧️，别怕，我一定撑伞☂️去接你。\n\n如果世界有些吵闹，我们就躲进这个只属于两个人的小宇宙里。不管是你开心或者不开心的碎碎念，还是委屈的小情绪，我都听着。👂",
+
+"谢谢你出现在我的生命里。\n\n虽然我们认识的时间不算长，但和你在一起的每一秒，都有种失而复得的默契。",
+
+"遗憾没有更早遇到你，把过去的遗憾补齐，但又庆幸刚好在这个时候遇见你，开启我们刚刚好的未来。",
+
+"未来的每一刻，不管是平淡还是灿烂，我都想陪你一起，一口一口把生活吃出甜味来。所有的不开心的事情就让它过去吧，好不好？🥰"
+        ];
+
+        let currentParagraph = 0;
+        const textBox = document.getElementById('text-box');
+        const nextBtn = document.getElementById('next-btn');
+
+        // 打字机核心动效
+        function playTypingEffect(text, index) {
+            if (index < text.length) {
+                textBox.innerHTML += text.charAt(index);
+                setTimeout(() => {
+                    playTypingEffect(text, index + 1);
+                }, 45); // 控制打字速度，数值越小越快
+            } else {
+                // 字打完后，显示按钮并赋予淡入动画
+                nextBtn.classList.add('fade-in');
+                nextBtn.disabled = false;
+            }
+        }
+
+        // 处理点击下一页的逻辑
+        function handleNext(event) {
+            // 每次点击都在按钮周围冒出爱心特效
+            for (let i = 0; i < 3; i++) {
+                createPopHeart(event.clientX, event.clientY);
+            }
+
+            if (currentParagraph < loveLetters.length) {
+                // 隐藏按钮，清空文本
+                nextBtn.classList.remove('fade-in');
+                nextBtn.disabled = true;
+                textBox.innerHTML = '';
+
+                // 播放下一段文案
+                playTypingEffect(loveLetters[currentParagraph], 0);
+                currentParagraph++;
+
+                // 判断是否是最后一步
+                if (currentParagraph === loveLetters.length) {
+                    setTimeout(() => {
+                        nextBtn.innerText = "盖章生效 💖";
+                    }, 300);
+                } else if (currentParagraph > 1) {
+                    setTimeout(() => {
+                        nextBtn.innerText = "继续阅读";
+                    }, 300);
+                }
+            } else {
+                // 已经读完全部，连续爆出大量爱心
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        createPopHeart(window.innerWidth / 2 - 50 + Math.random() * 100, window.innerHeight / 2);
+                    }, i * 150);
+                }
+            }
+        }
+
+        // 动态生成爱心的函数
+        function createPopHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerText = '❤️';
+            heart.style.left = (x - 10 + (Math.random() * 20)) + 'px';
+            heart.style.top = (y - 20) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 1200);
+        }
+
+        // 动态生成夜空流星和背景微星
+        function buildStarrySky() {
+            const sky = document.getElementById('sky');
+            
+            // 生成背景静止闪烁的小星星
+            for (let i = 0; i < 40; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = (Math.random() * 2 + 1) + 'px';
+                star.style.height = star.style.width;
+                star.style.backgroundColor = '#fff';
+                star.style.borderRadius = '50%';
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.opacity = Math.random();
+                star.style.animation = `pulse ${Math.random() * 2 + 2}s infinite alternate`;
+                sky.appendChild(star);
+            }
+
+            // 生成划过的流星
+            for (let i = 0; i < 3; i++) {
+                const meteor = document.createElement('div');
+                meteor.classList.add('meteor');
+                meteor.style.top = (Math.random() * 60) + '%';
+                meteor.style.right = (Math.random() * 30) + '%';
+                meteor.style.animationDelay = (Math.random() * 4) + 's';
+                sky.appendChild(meteor);
+            }
+        }
+
+        // 初始化网页
+        buildStarrySky();
+        handleNext({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 + 100 });
+    </script>
+</body>
+</html>
