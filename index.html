@@ -32,49 +32,71 @@
             z-index: 1;
         }
 
-        /* 主卡片容器 */
-        .main-card {
+        /* 💡 新增：卡片和猫咪的全局包裹层 */
+        .card-wrapper {
             width: 85%;
             max-width: 380px;
+            position: relative;
+            z-index: 10;
+            margin-top: 50px; /* 给头部的猫咪留出空间 */
+        }
+
+        /* 💡 新增：猫咪图层（藏在卡片后面） */
+        .cats-layer {
+            position: absolute;
+            top: -80px; /* 向上拔出大半截身子 */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: -1; /* 关键：放到卡片主体后面，边缘自然遮挡 */
+        }
+
+        .cat-svg {
+            width: 95px;
+            height: 100px;
+        }
+
+        /* 哆啦A梦动画：向右倾斜 */
+        .doraemon {
+            transform-origin: bottom center;
+            animation: leanRight 2.5s ease-in-out infinite alternate;
+        }
+
+        /* Hello Kitty动画：向左倾斜 */
+        .kitty {
+            transform-origin: bottom center;
+            animation: leanLeft 2.5s ease-in-out infinite alternate;
+        }
+
+        /* 中间互动的跳动爱心 */
+        .love-heart {
+            font-size: 22px;
+            margin: 0 -10px; /* 让猫咪的手能靠过来 */
+            margin-bottom: 25px; /* 对齐他们伸出的手 */
+            z-index: 5;
+            animation: pulseHeart 1s infinite alternate;
+        }
+
+        /* 主卡片容器 */
+        .main-card {
+            width: 100%;
             background: #ffffff;
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(255, 154, 162, 0.3);
-            z-index: 10;
-            position: relative;
             display: flex;
             flex-direction: column;
+            position: relative; /* 建立层级，遮住猫咪的下半截 */
         }
 
         /* 顶部粉色渐变标头 */
         .card-header {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             border-radius: 24px 24px 0 0;
-            padding: 30px 15px 15px;
+            padding: 25px 15px 15px;
             text-align: center;
             color: #fff;
-            position: relative;
-        }
-
-        /* 探头猫咪容器：调整位置刚好扒在边上 */
-        .cats-box {
-            position: absolute;
-            top: -59px; /* 让底部刚好贴合卡片边缘 */
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 12;
-            align-items: flex-end;
-        }
-        
-        .cat {
-            width: 75px;
-            height: 60px;
-            transform-origin: bottom center; /* 动画从底部开始摇晃，探头更生动 */
-            animation: sway 2.5s ease-in-out infinite alternate;
-        }
-        .cat-right {
-            animation-delay: -1.2s; /* 让两个小家伙摇晃错开 */
         }
 
         /* 标头文字 */
@@ -171,11 +193,18 @@
         }
 
         /* === 动画定义 === */
-        @keyframes sway {
-            0% { transform: rotate(-6deg); }
+        @keyframes leanRight {
+            0% { transform: rotate(-2deg); }
             100% { transform: rotate(6deg); }
         }
-
+        @keyframes leanLeft {
+            0% { transform: rotate(2deg); }
+            100% { transform: rotate(-6deg); }
+        }
+        @keyframes pulseHeart {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 10px #ff6b81; }
+        }
         @keyframes floatUp {
             0% { opacity: 0; transform: translateY(20px) scale(0.8); }
             10% { opacity: 0.8; }
@@ -187,81 +216,85 @@
 
     <div class="deco-container" id="deco-box"></div>
 
-    <div class="main-card">
+    <div class="card-wrapper">
         
-        <div class="card-header">
-            <div class="cats-box">
-                
-                <svg class="cat cat-left" viewBox="0 0 100 80">
-                    <defs>
-                        <clipPath id="cut-bottom">
-                            <rect x="0" y="0" width="100" height="80"/>
-                        </clipPath>
-                    </defs>
-                    <g clip-path="url(#cut-bottom)">
-                        <path d="M 10 80 C 10 10, 90 10, 90 80 Z" fill="#00a0e9"/>
-                        <path d="M 20 80 C 20 35, 80 35, 80 80 Z" fill="#ffffff"/>
-                        <ellipse cx="38" cy="38" rx="13" ry="16" fill="#ffffff" stroke="#333" stroke-width="1.5"/>
-                        <ellipse cx="62" cy="38" rx="13" ry="16" fill="#ffffff" stroke="#333" stroke-width="1.5"/>
-                        <circle cx="43" cy="42" r="3.5" fill="#333"/>
-                        <circle cx="57" cy="42" r="3.5" fill="#333"/>
-                        <circle cx="50" cy="52" r="7" fill="#e3001b" stroke="#333" stroke-width="1.5"/>
-                        <circle cx="47" cy="49" r="2.5" fill="#ffffff"/> 
-                        <line x1="50" y1="59" x2="50" y2="80" stroke="#333" stroke-width="1.5"/>
-                        <line x1="22" y1="52" x2="38" y2="56" stroke="#333" stroke-width="1.5"/>
-                        <line x1="20" y1="60" x2="38" y2="60" stroke="#333" stroke-width="1.5"/>
-                        <line x1="22" y1="68" x2="38" y2="64" stroke="#333" stroke-width="1.5"/>
-                        <line x1="78" y1="52" x2="62" y2="56" stroke="#333" stroke-width="1.5"/>
-                        <line x1="80" y1="60" x2="62" y2="60" stroke="#333" stroke-width="1.5"/>
-                        <line x1="78" y1="68" x2="62" y2="64" stroke="#333" stroke-width="1.5"/>
-                    </g>
-                </svg>
-
-                <svg class="cat cat-right" viewBox="0 0 100 80">
-                    <defs>
-                        <clipPath id="cut-bottom-hk">
-                            <rect x="0" y="0" width="100" height="80"/>
-                        </clipPath>
-                    </defs>
-                    <g clip-path="url(#cut-bottom-hk)">
-                        <polygon points="15,45 22,10 45,28" fill="#ffffff"/>
-                        <polygon points="85,45 78,10 55,28" fill="#ffffff"/>
-                        <ellipse cx="50" cy="58" rx="44" ry="33" fill="#ffffff"/>
-                        <ellipse cx="78" cy="30" rx="10" ry="8" fill="#ff0000" transform="rotate(-15 78 30)"/>
-                        <ellipse cx="62" cy="35" rx="10" ry="8" fill="#ff0000" transform="rotate(15 62 35)"/>
-                        <circle cx="70" cy="33" r="6" fill="#ffcc00"/>
-                        <ellipse cx="32" cy="58" rx="4" ry="6" fill="#333"/>
-                        <ellipse cx="68" cy="58" rx="4" ry="6" fill="#333"/>
-                        <ellipse cx="50" cy="65" rx="5" ry="3.5" fill="#ffcc00" stroke="#333" stroke-width="1"/>
-                        <line x1="6" y1="50" x2="18" y2="54" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="4" y1="58" x2="18" y2="58" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="6" y1="66" x2="18" y2="62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="94" y1="50" x2="82" y2="54" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="96" y1="58" x2="82" y2="58" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="94" y1="66" x2="82" y2="62" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                    </g>
-                </svg>
-
-            </div>
-            <h1 class="header-title">时女士 ❤ 朱先生</h1>
-        </div>
-
-        <div class="card-content">
-            <div class="subtitle">我不是很会说话，但我有一句真心话想对你说：<br><b>我今天比昨天更喜欢你了。</b></div>
-
-            <div class="timer-box">
-                我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
-            </div>
-
-            <div class="menu-grid">
-                <a href="story.html" class="menu-btn">📩 故事</a>
-                <a href="dabing.html" class="menu-btn">🥞 大饼</a>
-                <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 秘密</a>
-                <a href="#" class="menu-btn" onclick="meowAlert(event)">🌸 树洞</a> 
-            </div>
+        <div class="cats-layer">
             
-            <div class="footer">🔒 未完待续，浪漫大饼...</div>
+            <svg class="cat-svg doraemon" viewBox="0 0 100 110">
+                <rect x="20" y="50" width="60" height="60" rx="25" fill="#00a0e9"/>
+                <circle cx="50" cy="80" r="24" fill="#fff"/>
+                <rect x="25" y="55" width="50" height="6" rx="3" fill="#e3001b"/>
+                <circle cx="50" cy="65" r="7" fill="#fce300" stroke="#333" stroke-width="1.2"/>
+                <line x1="44" y1="63" x2="56" y2="63" stroke="#333" stroke-width="1.2"/>
+                <circle cx="50" cy="67" r="1.5" fill="#333"/>
+                <line x1="50" y1="67" x2="50" y2="72" stroke="#333" stroke-width="1.2"/>
+                <circle cx="50" cy="35" r="35" fill="#00a0e9"/>
+                <circle cx="50" cy="40" r="28" fill="#fff"/>
+                <ellipse cx="40" cy="22" rx="9" ry="12" fill="#fff" stroke="#333" stroke-width="1.5"/>
+                <ellipse cx="60" cy="22" rx="9" ry="12" fill="#fff" stroke="#333" stroke-width="1.5"/>
+                <circle cx="45" cy="22" r="3" fill="#333"/>
+                <circle cx="65" cy="22" r="3" fill="#333"/>
+                <circle cx="50" cy="32" r="5.5" fill="#e3001b" stroke="#333" stroke-width="1.2"/>
+                <circle cx="48" cy="30" r="1.5" fill="#fff"/>
+                <line x1="50" y1="37.5" x2="50" y2="52" stroke="#333" stroke-width="1.5"/>
+                <path d="M 28 42 Q 50 62 72 42" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="22" y1="35" x2="38" y2="38" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="20" y1="43" x2="38" y2="43" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="22" y1="51" x2="38" y2="48" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="78" y1="35" x2="62" y2="38" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="80" y1="43" x2="62" y2="43" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="78" y1="51" x2="62" y2="48" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M 75 75 Q 90 70 95 85" fill="none" stroke="#00a0e9" stroke-width="14" stroke-linecap="round"/>
+                <circle cx="95" cy="85" r="9" fill="#fff" stroke="#333" stroke-width="1.2"/>
+            </svg>
+
+            <div class="love-heart">❤️</div>
+
+            <svg class="cat-svg kitty" viewBox="0 0 100 110">
+                <rect x="25" y="60" width="50" height="50" rx="20" fill="#ff6b81"/>
+                <ellipse cx="50" cy="45" rx="42" ry="32" fill="#fff"/>
+                <polygon points="12,30 20,5 40,20" fill="#fff"/>
+                <polygon points="88,30 80,5 60,20" fill="#fff"/>
+                <ellipse cx="78" cy="18" rx="11" ry="8" fill="#e3001b" transform="rotate(-20 78 18)"/>
+                <ellipse cx="62" cy="24" rx="11" ry="8" fill="#e3001b" transform="rotate(20 62 24)"/>
+                <circle cx="70" cy="21" r="5" fill="#fce300"/>
+                <ellipse cx="30" cy="50" rx="3.5" ry="5.5" fill="#333"/>
+                <ellipse cx="70" cy="50" rx="3.5" ry="5.5" fill="#333"/>
+                <ellipse cx="50" cy="58" rx="4.5" ry="3" fill="#fce300" stroke="#333" stroke-width="0.5"/>
+                <line x1="4" y1="42" x2="20" y2="45" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="2" y1="50" x2="20" y2="50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4" y1="58" x2="20" y2="55" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="96" y1="42" x2="80" y2="45" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="98" y1="50" x2="80" y2="50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="96" y1="58" x2="80" y2="55" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <path d="M 28 80 Q 15 75 8 90" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
+            </svg>
+
         </div>
+
+        <div class="main-card">
+            <div class="card-header">
+                <h1 class="header-title">时女士 ❤ 朱先生</h1>
+            </div>
+
+            <div class="card-content">
+                <div class="subtitle">我不是很会说话，但我有一句真心话想对你说：<br><b>我今天比昨天更喜欢你了。</b></div>
+
+                <div class="timer-box">
+                    我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
+                </div>
+
+                <div class="menu-grid">
+                    <a href="story.html" class="menu-btn">📩 故事</a>
+                    <a href="dabing.html" class="menu-btn">🥞 大饼</a>
+                    <a href="#" class="menu-btn" onclick="meowAlert(event)">🐾 秘密</a>
+                    <a href="#" class="menu-btn" onclick="meowAlert(event)">🌸 树洞</a> 
+                </div>
+                
+                <div class="footer">🔒 未完待续，浪漫大饼...</div>
+            </div>
+        </div>
+        
     </div>
 
     <script>
