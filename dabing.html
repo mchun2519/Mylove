@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥞 今日份浪漫大饼 🥞</title>
+    <style>
+        /* 全局样式：呼应经典奶油粉色调 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #fff0f5 0%, #ffe4e1 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 动态背景装饰层 */
+        .deco-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 苹果毛玻璃质感大饼卡片 */
+        .card {
+            width: 90%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 32px;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(234, 134, 149, 0.15), 0 10px 20px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem 1.5rem 2rem;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* 右上角返回主页的可爱按钮 */
+        .back-home {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #d63031;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+        .back-home:hover {
+            background: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* 标题 */
+        h1 {
+            color: #d63031;
+            font-size: 1.4rem;
+            margin: 15px 0 5px 0;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+        .tips {
+            font-size: 0.85rem;
+            color: #57606f;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* 大饼烘焙平底锅区域 */
+        .pan-area {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1.2rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 金灿灿的可甜大饼 */
+        .pancake {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #ffb8b8 100%);
+            border-radius: 50%;
+            box-shadow: 0 8px 20px rgba(241, 144, 102, 0.4), inset -5px -5px 15px rgba(214, 48, 49, 0.2);
+            border: 3px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.8rem;
+            z-index: 2;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* 大饼上的可爱腮红红晕 */
+        .pancake::before {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 25px;
+            background: rgba(255, 107, 129, 0.25);
+            border-radius: 50%;
+            bottom: 15px;
+            filter: blur(4px);
+        }
+
+        /* 锅底阴影 */
+        .pan-shadow {
+            position: absolute;
+            width: 120px;
+            height: 12px;
+            background: rgba(164, 176, 190, 0.3);
+            border-radius: 50%;
+            bottom: 25px;
+            z-index: 1;
+        }
+
+        /* 跳动动画 */
+        .bounce-animation {
+            animation: pancakeJump 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* 大饼内容展示区 */
+        .content-box {
+            min-height: 140px;
+            background: rgba(255, 255, 255, 0.65);
+            border: 2px dashed rgba(214, 48, 49, 0.5);
+            border-radius: 20px;
+            padding: 18px 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6);
+            box-sizing: border-box;
+        }
+
+        .pie-title {
+            color: #ff4757;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        .pie-text {
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        /* 触发按钮 */
+        .bake-btn {
+            display: block;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            color: #c0392b;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            padding: 13px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(214, 48, 49, 0.1);
+            transition: all 0.1s ease;
+            box-sizing: border-box;
+        }
+        .bake-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 6px 20px rgba(214, 48, 49, 0.2);
+            color: #d63031;
+        }
+        .bake-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(214, 48, 49, 0.1);
+        }
+
+        /* 散落特效挂件样式 */
+        .pop-item {
+            position: absolute;
+            font-size: 1.3rem;
+            pointer-events: none;
+            z-index: 100;
+            animation: popOut 0.8s ease-out forwards;
+        }
+
+        .footer {
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        /* === 动画核心 === */
+        @keyframes pancakeJump {
+            0% { transform: translateY(0) scale(1); }
+            40% { transform: translateY(-30px) scale(1.05); }
+            70% { transform: translateY(3px) scale(0.97); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes popOut {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+            100% { opacity: 0; transform: translate(var(--cx), var(--cy)) scale(1.3); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="deco-container" id="deco-box"></div>
+
+    <div class="card">
+        <a href="index.html" class="back-home">🌍 返回宇宙</a>
+
+        <h1>🥞 时女士专属·浪漫画饼大赏</h1>
+        <div class="tips">朱先生倾情烘焙 · 纯天然无污染不发胖</div>
+
+        <div class="pan-area" id="pan-zone">
+            <div class="pancake" id="my-pancake" onclick="bakePie(event)">🥞</div>
+            <div class="pan-shadow"></div>
+        </div>
+
+        <div class="content-box">
+            <div class="pie-title" id="pie-title">✨ 欢迎光临画饼基地 ✨</div>
+            <div class="pie-text" id="pie-text">请在上方锅里轻戳大饼，或者点击下方按钮。为你现场烤制一个热乎乎、香喷喷的全新未来大饼！</div>
+        </div>
+
+        <button class="bake-btn" onclick="bakePie(event)">🔥 随机烤一个大饼</button>
+
+        <div class="footer">⚠️ 温馨提示：大饼管饱，最终解释权归朱先生所有</div>
+    </div>
+
+    <script>
+        const pieDatabase = [
+            {
+                title: "【今日限定·超大双层豪华星空饼】",
+                text: "我已经跟全宇宙500强企业谈好合作了，过几年等手头再宽裕点，直接把银河系最亮的那颗星星买下来，冠上时女士的名字，让你当宇宙第一星主！"
+            },
+            {
+                title: "【时女士一等特权·无条件偏爱大饼】",
+                text: "饼皮铁律：凡是时女士说的，都是对的！以后吵架不管谁对谁错，罚朱先生在3分钟内主动熊抱100次，并提供捏脚、捶背等一条龙无怨无悔服务！"
+            },
+            {
+                title: "【未来柴米油盐·温馨落地窗蓝图】",
+                text: "我们要买一间带超大落地窗的房子，塞满你喜欢的软糯抱枕。阳台种满你爱的花。下雨天我们就窝在屋里看电影，在你累了回家时，桌上总有一碗刚出锅、冒着热气的暖汤。"
+            },
+            {
+                title: "【硬核致富大饼·财政大权终身归属】",
+                text: "以后朱先生负责全力在外搞钱，时女士无条件拥有财政审批权和无限额度刷卡权，朱先生每天只领20块钱买咖啡！"
+            },
+            {
+                title: "【居家暖男大饼·家务绝缘计划】",
+                text: "以后家里做饭洗碗、拖地擦窗、倒垃圾洗衣服这些体力活全部由朱先生一人包揽！时女士只需要每天负责穿得漂漂亮亮、貌美如花，在旁边负责监督就行！"
+            },
+            {
+                title: "【超级零食特权·第一口永远归你】",
+                text: "此饼承诺：冰淇淋的第一口、西瓜最中间最甜的那颗心、奶茶里的珍珠、炸鸡最酥的那块皮，永远永远无条件归时女士所有！朱先生绝不抢食！"
+            },
+            {
+                title: "【云朵睡眠大饼·浪漫环境定制】",
+                text: "未来的卧室床要用云朵做，软绵绵的。每天早晨叫醒时女士的绝对不是冰冷的闹钟，而是朱先生特意买通的清晨第一缕阳光和耳边温柔的早安吻！"
+            },
+            {
+                title: "【真诚终极告白饼·其实我很爱你】",
+                text: "好啦，大饼画完了！其实我的意思是，虽然现在买不起星星，但只要有你在身边，我就觉得自己拥有了整个宇宙。虽然是画大饼，但有你，我就会一件件把它变成现实。❤️"
+            }
+        ];
+
+        let lastIndex = -1;
+
+        // 🌟 核心修复：完善点击交互，兼容各种点击方式，确保特效正常爆裂
+        function bakePie(event) {
+            const pancake = document.getElementById('my-pancake');
+            const titleEl = document.getElementById('pie-title');
+            const textEl = document.getElementById('pie-text');
+            const panZone = document.getElementById('pan-zone');
+
+            // 播放Q弹跳动动画
+            pancake.classList.remove('bounce-animation');
+            void pancake.offsetWidth; 
+            pancake.classList.add('bounce-animation');
+
+            // 释放粒子爆发特效
+            for (let i = 0; i < 10; i++) {
+                createPopElement(panZone);
+            }
+
+            // 切换不重复的文案
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * pieDatabase.length);
+            } while (randomIndex === lastIndex);
+            
+            lastIndex = randomIndex;
+            const currentPie = pieDatabase[randomIndex];
+
+            setTimeout(() => {
+                titleEl.innerHTML = currentPie.title;
+                textEl.innerHTML = currentPie.text;
+            }, 100);
+        }
+
+        // 🌟 核心修复：重构粒子散射算法，脱离全局加载依赖，100%成功运转
+        function createPopElement(parent) {
+            const icons = ['✨', '❤️', '🌸', '🌟'];
+            const item = document.createElement('div');
+            item.className = 'pop-item';
+            item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 70;
+            const cx = Math.cos(angle) * distance;
+            const cy = Math.sin(angle) * distance - 15;
+
+            item.style.setProperty('--cx', cx + 'px');
+            item.style.setProperty('--cy', cy + 'px');
+            
+            // 锁定在锅中央爆发
+            item.style.left = '45%';
+            item.style.top = '35%';
+
+            parent.appendChild(item);
+            setTimeout(function() { item.remove(); }, 800);
+        }
+
+        function createBackgroundDeco() {
+            const container = document.getElementById('deco-box');
+            const icons = ['☁️', '🎈', '✨', '❤️'];
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.style.position = 'absolute';
+                item.style.fontSize = '1.2rem';
+                item.style.pointerEvents = 'none';
+                item.style.left = (Math.random() * 100) + '%';
+                item.style.bottom = '-5%';
+                item.style.opacity = '0';
+                item.style.transition = 'all 4s linear';
+                item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                container.appendChild(item);
+
+                setTimeout(() => {
+                    item.style.transform = 'translateY(-110vh) scale(1.2)';
+                    item.style.opacity = '0.6';
+                }, 50);
+
+                setTimeout(() => { item.remove(); }, 4000);
+            }, 1500);
+        }
+
+        // 🌟 核心修复：绑定 window.onload 激活开关，确保代码运行环境处于就绪状态
+        window.onload = function() {
+            createBackgroundDeco();
+        };
+    </script>
+</body>
+</html>
