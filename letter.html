@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 见字如面 展信佳</title>
+    <style>
+        /* 全局基础样式 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'PingFang SC', 'Microsoft YaHei', cursive, serif;
+            background-color: #ffe6eb;
+            background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
+            overflow: hidden;
+        }
+
+        /* 动态漂浮物背景 */
+        .deco-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .float-item {
+            position: absolute;
+            bottom: -30px;
+            pointer-events: none;
+            opacity: 0;
+            animation: float-up linear forwards;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.4));
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff6b81;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
+            z-index: 300; 
+        }
+
+        /* =========================================
+           真·三层结构信封物理引擎（彻底解决穿透Bug）
+           ========================================= */
+        
+        /* 1. 信封背面 (最底层) */
+        .env-back {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 200px;
+            background: #ffb6c1;
+            border-radius: 8px;
+            z-index: 10;
+            box-shadow: 0 15px 40px rgba(255, 154, 162, 0.5);
+        }
+
+        /* 2. 信纸 (中间层) */
+        .letter {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) translateY(10px);
+            width: 270px; height: 170px;
+            background: #fffdf9;
+            z-index: 20; /* 夹在背板和正面之间 */
+            border-radius: 6px;
+            padding: 30px 24px;
+            box-sizing: border-box;
+            opacity: 0; /* 默认完全隐藏不漏字 */
+            background-image: linear-gradient(rgba(240,220,220,0.3) 1px, transparent 1px);
+            background-size: 100% 32px; 
+        }
+
+        /* 3. 信封正面容器 (最上层) */
+        .env-front {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 200px;
+            z-index: 30;
+            cursor: pointer;
+        }
+
+        /* 正面：口袋 */
+        .env-pocket {
+            position: absolute;
+            bottom: 0; left: 0;
+            border-left: 150px solid #ffd1dc;
+            border-right: 150px solid #ffd1dc;
+            border-bottom: 110px solid #fecfef;
+            border-top: 90px solid transparent;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* 正面：上翻盖 */
+        .env-flap {
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #ff9a9e;
+            transform-origin: top center;
+            transition: transform 0.6s ease, z-index 0s 0.6s;
+        }
+
+        /* 正面：火漆印与文字 */
+        .wax-seal {
+            position: absolute;
+            top: 90px; left: 50%;
+            transform: translateX(-50%);
+            width: 44px; height: 44px;
+            background: #e3001b;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transition: opacity 0.3s;
+        }
+        .cover-text {
+            position: absolute;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            color: #d15c6b;
+            font-size: 1.35rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+            transition: opacity 0.3s;
+        }
+        .click-tip {
+            position: absolute;
+            bottom: -50px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 107, 129, 0.9);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            animation: bounce 1s infinite alternate;
+            transition: opacity 0.3s;
+        }
+        @keyframes bounce {
+            0% { transform: translateX(-50%) translateY(0); }
+            100% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        /* =========================================
+           激活动画（开信过程）
+           ========================================= */
+        
+        /* 1. 盖子打开并隐藏火漆 */
+        body.is-open .env-flap {
+            transform: rotateX(180deg);
+            z-index: 5; /* 翻上去后落到信封背面 */
+        }
+        body.is-open .wax-seal,
+        body.is-open .cover-text,
+        body.is-open .click-tip {
+            opacity: 0;
+        }
+
+        /* 2. 信纸抽出并放大 */
+        body.is-open .letter {
+            animation: pullLetter 1.5s forwards ease-in-out;
+            animation-delay: 0.3s; /* 等盖子打开再抽信 */
+            overflow-y: auto;
+        }
+
+        @keyframes pullLetter {
+            0% {
+                opacity: 1;
+                width: 270px; height: 170px;
+                transform: translate(-50%, -50%) translateY(10px);
+                z-index: 20; /* 藏在口袋后面 */
+            }
+            35% {
+                opacity: 1;
+                width: 270px; height: 170px;
+                transform: translate(-50%, -50%) translateY(-170px); /* 向上抽出信封 */
+                z-index: 20; 
+            }
+            36% {
+                /* 抽出信封的瞬间，图层跃升到最前面！ */
+                z-index: 100; 
+            }
+            100% {
+                opacity: 1;
+                width: 88vw; max-width: 400px; height: 75vh;
+                transform: translate(-50%, -50%) translateY(0); /* 居中放大到全屏 */
+                z-index: 100;
+            }
+        }
+
+        /* 3. 护眼纯净半透明背景（彻底摒弃毛玻璃，保证绝对高清） */
+        .overlay {
+            position: fixed; inset: 0; 
+            background: rgba(255, 240, 243, 0.92); 
+            z-index: 50; /* 盖住信封，托起信纸 */
+            opacity: 0; pointer-events: none; 
+            transition: opacity 0.8s ease 0.8s; 
+        }
+        body.is-open .overlay {
+            opacity: 1; pointer-events: auto;
+        }
+
+        /* =========================================
+           信件文字排版精调
+           ========================================= */
+        .letter-content {
+            height: 100%;
+        }
+        /* 隐藏滚动条让排版更美观 */
+        .letter::-webkit-scrollbar { display: none; }
+        
+        .letter-text {
+            color: #3f3232; /* 深褐色，更像墨水 */
+            font-size: 1.05rem;
+            line-height: 1.9;
+            text-align: justify;
+            padding-bottom: 20px;
+        }
+        .letter-salutation {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #b83b4b;
+            margin-bottom: 20px;
+        }
+        .letter-paragraph {
+            text-indent: 2em; 
+            margin-bottom: 18px;
+        }
+        .letter-signature {
+            text-align: right;
+            margin-top: 40px;
+            font-weight: bold;
+            color: #554;
+            letter-spacing: 2px;
+        }
+        .letter-date {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #887;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">⬅ 返回</a>
+
+    <div class="deco-container" id="deco-box"></div>
+
+    <div class="env-back"></div>
+
+    <div class="letter" onclick="event.stopPropagation()">
+        <div class="letter-content">
+            <div class="letter-text">
+                <div class="letter-salutation">吾爱雨晴 展信安康：</div>
+                
+                <div class="letter-paragraph">时值小满，风传佳期，随信寄上 200 银，聊备零用，切勿节俭。彩云之南，山高水长，虽相隔千里，却心相牵连，心中念你，便不觉迢远。世人皆在今日诉情，吾亦不免俗，遥寄一声，我爱你。</div>
+                
+                <div class="letter-paragraph">知你独在苑陵，日月辛劳，木曜将至，记得去食那疯狂之物，更须配以仁勋君同款雪王蜜桃四季春，算作我隔空为你备下的酒食。愿那一餐热气与清甜，能慰藉你一周之劳心。</div>
+                
+                <div class="letter-paragraph">我在这头，一心不能二用。念及有你守候，心中满是牵挂，亦满是笃定。唯愿以此短笺，诉我寸心，祝卿祉猷并茂，顺遂无虞。</div>
+                
+                <div class="letter-signature">夫 朱广锐</div>
+                <div class="letter-date">二〇二六 年 五月 廿 日 于滇</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="env-front" onclick="openLetter()">
+        <div class="env-flap"></div>
+        <div class="env-pocket"></div>
+        <div class="wax-seal">❤️</div>
+        <div class="cover-text">雨晴亲启</div>
+        <div class="click-tip">点开这封信 💌</div>
+    </div>
+
+    <div class="overlay" onclick="closeLetter()"></div>
+
+    <script>
+        // 开信
+        function openLetter() {
+            document.body.classList.add('is-open');
+        }
+
+        // 关信 (点击半透明背景触发)
+        function closeLetter() {
+            document.body.classList.remove('is-open');
+        }
+
+        // 背景浪漫粒子
+        function createDeco() {
+            var container = document.getElementById('deco-box');
+            var icons = ['🌸', '✨', '🫧', '💖', '⭐', '💕', '🎈'];
+            
+            setInterval(function() {
+                var item = document.createElement('div');
+                item.className = 'float-item';
+                item.style.left = Math.random() * 100 + '%';
+                item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                
+                var size = Math.random() * 12 + 12;
+                item.style.fontSize = size + 'px';
+                
+                var duration = Math.random() * 4 + 4;
+                item.style.animationDuration = duration + 's';
+
+                container.appendChild(item);
+                setTimeout(function() { item.remove(); }, duration * 1000);
+            }, 500); 
+        }
+
+        window.onload = function() {
+            createDeco();
+        };
+    </script>
+</body>
+</html>
