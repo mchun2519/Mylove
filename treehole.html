@@ -2,21 +2,144 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>召唤齿轮</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 我们的专属树洞 🌸</title>
+    
     <script src="https://cdn.staticfile.org/twikoo/1.6.31/twikoo.all.min.js"></script>
+
     <style>
-        /* 强制把齿轮显示出来，并且变大！ */
-        .tk-admin-config { display: inline-block !important; transform: scale(1.5); margin-right: 15px; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; min-height: 100vh;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #ffe6eb;
+            background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden; position: relative;
+        }
+
+        .deco-container {
+            position: fixed; width: 100%; height: 100%; top: 0; left: 0;
+            pointer-events: none; z-index: 1;
+        }
+
+        .float-item {
+            position: absolute; bottom: -30px; pointer-events: none;
+            opacity: 0; animation: float-up linear forwards;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.4));
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .board-container {
+            width: 90%; max-width: 600px; margin: 40px auto; z-index: 10;
+            position: relative; display: flex; flex-direction: column; align-items: center;
+        }
+
+        .back-btn {
+            align-self: flex-start; text-decoration: none;
+            background: rgba(255, 255, 255, 0.8); color: #ff6b81;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.9rem;
+            font-weight: bold; box-shadow: 0 4px 10px rgba(255, 182, 193, 0.2);
+            transition: all 0.2s; margin-bottom: 20px;
+        }
+        .back-btn:hover { background: #fff; transform: translateX(-5px); }
+
+        .board-title {
+            color: #ff6b81; font-size: 1.8rem; margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+        .board-subtitle {
+            color: #777; font-size: 0.9rem; margin-bottom: 30px;
+            text-align: center; line-height: 1.5;
+        }
+
+        #tcomment { width: 100%; }
+        
+        .tk-comment {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-radius: 16px !important; padding: 12px 15px !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            margin-top: 12px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.02) !important;
+        }
+        .tk-submit {
+            background: rgba(255, 255, 255, 0.6) !important;
+            border-radius: 20px !important; padding: 20px !important;
+            border: 2px solid #fff !important; box-shadow: 0 8px 25px rgba(255, 154, 162, 0.2) !important;
+        }
+
+        /* 🚀 终极魔法：直接在前端隐藏掉邮箱、网址、底部版权和还未设置成功的齿轮 */
+        .tk-meta-input:nth-child(2), 
+        .tk-meta-input:nth-child(3), 
+        .tk-input-image, 
+        .tk-admin-config,
+        .tk-footer { 
+            display: none !important; 
+        }
+
+        /* 让剩下的“昵称”框独自美丽，占满 100% 宽度 */
+        .tk-meta-input:nth-child(1) { width: 100% !important; }
+
+        .el-button--primary {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;
+            border: none !important; border-radius: 20px !important; font-weight: bold !important;
+            box-shadow: 0 4px 10px rgba(255, 154, 162, 0.4) !important; color: #fff !important;
+        }
+        .el-button--primary:hover { 
+            transform: translateY(-2px) !important; box-shadow: 0 6px 15px rgba(255, 154, 162, 0.6) !important;
+        }
+        
+        .tk-meta-input .el-input { background: rgba(255,255,255,0.8) !important; border-radius: 8px; }
+        .el-textarea__inner { background: rgba(255,255,255,0.8) !important; border-radius: 12px !important; color: #555 !important;}
+        .tk-nick { color: #ff6b81 !important; font-weight: bold !important; }
+        .tk-time { font-weight: bold !important; color: #aaa !important; }
+        .tk-content { color: #444 !important; font-size: 1rem !important; line-height: 1.6 !important;}
+        .tk-preview { display: none !important; }
     </style>
 </head>
 <body>
-    <div style="max-width: 600px; margin: 50px auto;" id="tcomment"></div>
+
+    <div class="deco-container" id="deco-box"></div>
+
+    <div class="board-container">
+        <a href="index.html" class="back-btn">⬅ 返回我们的秘密基地</a>
+        <h1 class="board-title">🌸 专属树洞</h1>
+        <div class="board-subtitle">开心、难过、想念，或是突然冒出的碎碎念<br>都可以丢进这里，我都会听见。</div>
+        <div id="tcomment"></div>
+    </div>
+
     <script>
-        twikoo.init({
-            envId: 'https://shujukulove.vercel.app', 
-            el: '#tcomment',
-            lang: 'zh-CN'
-        });
+        function createDeco() {
+            var container = document.getElementById('deco-box');
+            var icons = ['🌸', '✨', '🫧', '💖', '💌', '💕'];
+            setInterval(function() {
+                var item = document.createElement('div');
+                item.className = 'float-item';
+                item.style.left = Math.random() * 100 + '%';
+                item.style.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                var size = Math.random() * 12 + 12;
+                item.style.fontSize = size + 'px';
+                var duration = Math.random() * 4 + 4;
+                item.style.animationDuration = duration + 's';
+                container.appendChild(item);
+                setTimeout(function() { item.remove(); }, duration * 1000);
+            }, 600); 
+        }
+
+        window.onload = function() {
+            createDeco(); 
+            
+            // 🌟 终极修复逻辑：强行锁定正确的 Vercel 后台地址，绝不允许它连接错位！
+            twikoo.init({
+                envId: 'https://shujukulove.vercel.app', 
+                el: '#tcomment',                         
+                lang: 'zh-CN'                            
+            });
+        };
     </script>
 </body>
 </html>
