@@ -456,10 +456,11 @@
             </div>
         </div>
         
-    </div>
-
-    <script>
-        var anniversary = new Date(2026, 1, 21); 
+        <script>
+        // ==========================================
+        // 1. 倒计时与动画基础逻辑
+        // ==========================================
+        var anniversary = new Date(2026, 1, 21); // 注意：JS中月份从0开始算，1代表2月
 
         function updateTimer() {
             var now = new Date();
@@ -476,6 +477,7 @@
 
         function createDeco() {
             var container = document.getElementById('deco-box');
+            if(!container) return;
             var icons = ['🌸', '✨', '🫧', '💖', '⭐', '💕', '🎈'];
             
             setInterval(function() {
@@ -495,7 +497,9 @@
             }, 500); 
         }
 
-        // 音乐播放逻辑
+        // ==========================================
+        // 2. 音乐播放逻辑
+        // ==========================================
         var bgMusic = document.getElementById('bgMusic');
         var musicBtn = document.getElementById('musicBtn');
         var musicTip = document.getElementById('musicTip');
@@ -528,141 +532,96 @@
             }
         }
 
-        window.onload = function() {
-            updateTimer();
-            createDeco(); 
-            
-            setTimeout(function() {
-                if(musicTip) musicTip.style.opacity = '0';
-            }, 5000);
-        };
-        window.onload = function() {
-            updateTimer();
-            createDeco(); 
-            
-            setTimeout(function() {
-                if(musicTip) musicTip.style.opacity = '0';
-            }, 5000);
-        };
-
-        // ================= 这里往下是你新加的星象代码，我帮你合并进来了 =================
-
-        // 3. JavaScript 逻辑：获取、计算并展示
-
-        // --- (1) 自定义文案库 ---
+        // ==========================================
+        // 3. 星象与默契度逻辑 (真实API版)
+        // ==========================================
         const tipDatabase = {
-          high: [ // 90-100分
+          high: [ 
             "宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", 
             "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"
           ],
-          medium: [ // 80-89分
+          medium: [ 
             "宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", 
             "宜：视频聊天10分钟", "宜：推荐一部好看的电影"
           ],
-          low: [ // < 80分
+          low: [ 
             "忌：提起旧事", "宜：一个温柔的拥抱", "宜：耐心地倾听对方吐槽", 
             "宜：给对方做一个搞怪表情", "宜：一起打一把游戏"
           ]
         };
 
-        // --- (2) 模拟 API 数据获取函数 ---
-       // --- (2) 真实 API 数据获取函数 ---
-async function fetchHoroscopeData() {
-  // 👇 重要：将这里的 "你的API_KEY" 替换成你在天聚数行【控制台】里看到的真实 Key (一串字母数字)
-  const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
+        async function fetchHoroscopeData() {
+          // 👇 【重点】请把你从天行数据复制的 API Key，粘贴在这两个双引号中间！
+          // 例如: const API_KEY = "123abc456def"; (千万不要删掉两边的引号)
+          const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
 
-  try {
-    // 1. 获取朱先生（水瓶座/aquarius）的今日运势
-    const responseZhu = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`);
-    const resultZhu = await responseZhu.json();
-    let loveIndexZhu = 85; // 默认保底分
-    
-    // 解析天行数据返回的爱情指数 (它返回的是 result.list 数组)
-    if(resultZhu.code === 200) {
-      const loveData = resultZhu.result.list.find(item => item.type === "爱情指数");
-      // 天行数据返回的内容带百分号，比如 "80%"，这里用 parseInt 提取数字 80
-      if(loveData) loveIndexZhu = parseInt(loveData.content); 
-    }
+          try {
+            const responseZhu = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`);
+            const resultZhu = await responseZhu.json();
+            let loveIndexZhu = 85; 
+            if(resultZhu.code === 200) {
+              const loveData = resultZhu.result.list.find(item => item.type === "爱情指数");
+              if(loveData) loveIndexZhu = parseInt(loveData.content); 
+            }
 
-    // 2. 获取时女士（天秤座/libra）的今日运势
-    const responseShi = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`);
-    const resultShi = await responseShi.json();
-    let loveIndexShi = 85; 
-    
-    if(resultShi.code === 200) {
-      const loveData = resultShi.result.list.find(item => item.type === "爱情指数");
-      if(loveData) loveIndexShi = parseInt(loveData.content);
-    }
+            const responseShi = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`);
+            const resultShi = await responseShi.json();
+            let loveIndexShi = 85; 
+            if(resultShi.code === 200) {
+              const loveData = resultShi.result.list.find(item => item.type === "爱情指数");
+              if(loveData) loveIndexShi = parseInt(loveData.content);
+            }
 
-    return { 
-      mrZhu: { love_index: loveIndexZhu }, 
-      msShi: { love_index: loveIndexShi } 
-    };
-
-  } catch (error) {
-    console.error("请求真实星象接口失败:", error);
-    // 即使网络请求失败，也返回一个保底分数，保证页面 UI 不会白屏崩溃
-    return { mrZhu: { love_index: 85 }, msShi: { love_index: 85 } };
-  }
-} {
-          console.log("正在模拟从后台抓取星座运势数据...");
-          
-          const mrZhuData = {
-            sign: "水瓶座",
-            love_index: 88,
-            overall_index: 92
-          };
-
-          const msShiData = {
-            sign: "天秤座",
-            love_index: 94,
-            overall_index: 90
-          };
-
-          await new Promise(resolve => setTimeout(resolve, 500)); 
-
-          return { mrZhu: mrZhuData, msShi: msShiData };
+            return { mrZhu: { love_index: loveIndexZhu }, msShi: { love_index: loveIndexShi } };
+          } catch (error) {
+            console.error("请求接口失败:", error);
+            return { mrZhu: { love_index: 85 }, msShi: { love_index: 85 } };
+          }
         }
 
-       // --- (3) 核心逻辑：计算并更新 UI ---
-async function updateDailyHoroscopeSync() {
-  // 1. 获取数据
-  let data;
-  try {
-    // 👇 这里已经帮你替换成了真实的请求函数 fetchHoroscopeData
-    data = await fetchHoroscopeData(); 
-  } catch (error) {
-    console.error("获取星座数据失败:", error);
-    document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
-    return;
-  }
+        async function updateDailyHoroscopeSync() {
+          let data;
+          try {
+            data = await fetchHoroscopeData(); 
+          } catch (error) {
+            document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
+            return;
+          }
 
-  // 2. 极简处理逻辑：计算默契指数
-  let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
-  let randomOffset = (Math.random() * 4) - 2; 
-  let finalSyncScore = Math.round(baseScore + randomOffset);
-  if (finalSyncScore > 100) finalSyncScore = 100;
+          let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
+          let randomOffset = (Math.random() * 4) - 2; 
+          let finalSyncScore = Math.round(baseScore + randomOffset);
+          if (finalSyncScore > 100) finalSyncScore = 100;
 
-  // 3. 匹配自定义文案
-  let tipList;
-  if (finalSyncScore >= 90) {
-    tipList = tipDatabase.high;
-  } else if (finalSyncScore >= 80) {
-    tipList = tipDatabase.medium;
-  } else {
-    tipList = tipDatabase.low;
-  }
-  const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+          let tipList;
+          if (finalSyncScore >= 90) {
+            tipList = tipDatabase.high;
+          } else if (finalSyncScore >= 80) {
+            tipList = tipDatabase.medium;
+          } else {
+            tipList = tipDatabase.low;
+          }
+          const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
 
-  // 4. 更新前端 UI
-  document.getElementById("sync-score-num").innerText = finalSyncScore;
-  document.getElementById("horoscope-tip-text").innerText = randomTip;
-}
-        // 页面加载完成后立即执行星象更新
-        document.addEventListener("DOMContentLoaded", function() {
-          updateDailyHoroscopeSync();
-        });
+          document.getElementById("sync-score-num").innerText = finalSyncScore;
+          document.getElementById("horoscope-tip-text").innerText = randomTip;
+        }
 
-    </script> 
-</body>
-</html>
+        // ==========================================
+        // 4. 页面加载完毕后的【总控开关】
+        // ==========================================
+        window.onload = function() {
+            // 启动倒计时
+            updateTimer();
+            // 启动动画
+            createDeco(); 
+            // 隐藏音乐提示气泡
+            setTimeout(function() {
+                if(musicTip) musicTip.style.opacity = '0';
+            }, 5000);
+            // 启动星象接口
+            updateDailyHoroscopeSync();
+        };
+    </script>
+        
+    </div>
