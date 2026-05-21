@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎀 我们的恋爱秘密基地 🎀</title>
     <style>
-        /* 全局基础样式 */
+        /* === 1. 全局与基础样式 === */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -15,18 +15,15 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        /* 动态背景装饰层 */
         .deco-container {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
             pointer-events: none; z-index: 1; overflow: hidden;
         }
-
         .float-item {
             position: absolute; bottom: -30px; pointer-events: none; opacity: 0;
             animation: float-up linear forwards;
             filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.4));
         }
-
         @keyframes float-up {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
@@ -34,7 +31,7 @@
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* 🎵 音乐控制按钮 */
+        /* === 2. 音乐播放组件 === */
         .music-btn {
             position: fixed; top: 25px; right: 25px; width: 40px; height: 40px;
             background: rgba(255, 255, 255, 0.9); border-radius: 50%;
@@ -47,7 +44,6 @@
         .music-btn.playing { animation-play-state: running; border-color: #ff9a9e; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 🎵 提示小气泡 */
         .music-tip {
             position: fixed; top: 33px; right: 75px; background: rgba(255, 107, 129, 0.8);
             color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem;
@@ -59,55 +55,40 @@
             border-color: transparent transparent transparent rgba(255, 107, 129, 0.8);
         }
 
-        /* 卡片包裹层 */
+        /* === 3. 主卡片布局 === */
         .card-wrapper {
             width: 85%; max-width: 380px; position: relative; z-index: 10;
             margin-top: 60px; display: flex; flex-direction: column; align-items: center;
         }
-
         .main-card {
             width: 100%; background: #ffffff; border-radius: 24px;
             box-shadow: 0 10px 30px rgba(255, 154, 162, 0.3);
             display: flex; flex-direction: column; position: relative;
         }
-
         .card-header {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             border-radius: 24px 24px 0 0; padding: 25px 15px 15px; 
             text-align: center; color: #fff; position: relative; 
         }
 
-        /* 👑 SVG 容器 */
+        /* SVG 动画与标题 */
         .cats-box {
             position: absolute; top: -108px; left: 50%; transform: translateX(-50%);
             width: 240px; height: 110px; z-index: 20; 
         }
-        @keyframes heart-beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
+        @keyframes heart-beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .heart-beat-group { transform-origin: 120px 75px; animation: heart-beat 1.2s ease-in-out infinite; }
         .cats-box svg { animation: breathe 3s ease-in-out infinite alternate; }
-        @keyframes breathe {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-3px); } 
-        }
+        @keyframes breathe { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
 
-        .header-title {
-            font-size: 1.3rem; font-weight: bold; margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1); letter-spacing: 1px;
-        }
-
-        .card-content { padding: 25px 20px; text-align: center; }
-
+        .header-title { font-size: 1.3rem; font-weight: bold; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card-content { padding: 25px 20px 15px 20px; text-align: center; }
         .subtitle { margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px; }
         .line-one { color: #666; font-size: 0.85rem; white-space: nowrap; }
         .line-two { color: #555; font-size: 1rem; font-weight: bold; }
 
-        .timer-box {
-            color: #333; font-size: 1rem; display: flex; align-items: center;
-            justify-content: center; margin-bottom: 25px;
-        }
+        /* 倒计时 */
+        .timer-box { color: #333; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .days-circle {
             background: #ff6b81; color: #fff; width: 45px; height: 45px;
             border-radius: 50%; display: inline-flex; align-items: center;
@@ -115,15 +96,34 @@
             margin: 0 10px; box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
 
-        /* === 星象仪表盘终极样式 === */
+        /* === 4. 双城天气 & 浪漫距离 === */
+        .weather-container {
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
+            padding: 12px 15px; margin: 0 auto 20px auto; max-width: 340px;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+        }
+        .weather-box { text-align: center; width: 35%; }
+        .city-name { font-size: 11px; color: #777; margin-bottom: 4px; font-weight: bold; }
+        .weather-temp { font-size: 18px; font-weight: bold; color: #ff6b81; margin-bottom: 2px; }
+        .weather-cond { font-size: 11px; color: #666; }
+        
+        .weather-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 30%; }
+        .plane-icon { font-size: 20px; animation: float-horizontal 2.5s ease-in-out infinite alternate; }
+        .distance-text { 
+            font-size: 10px; color: #ff6b81; background: #fff0f5; 
+            padding: 2px 6px; border-radius: 8px; margin-top: 4px; 
+            font-weight: bold; white-space: nowrap; box-shadow: inset 0 0 4px rgba(255,182,193,0.3);
+        }
+        @keyframes float-horizontal { 0% { transform: translateX(-5px); } 100% { transform: translateX(5px); } }
+
+        /* === 5. 星象仪表盘 === */
         .horoscope-container {
             background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
-            padding: 16px 15px; margin: 20px auto 25px auto; max-width: 340px; 
+            padding: 16px 15px; margin: 0 auto 25px auto; max-width: 340px; 
             box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15); text-align: center;
         }
-        .horo-top-section {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
-        }
+        .horo-top-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .zodiac-person {
             background: #fff0f5; padding: 10px; border-radius: 12px;
             width: 42%; box-shadow: inset 0 0 8px rgba(255, 182, 193, 0.2);
@@ -139,27 +139,21 @@
         .heart-pulse { font-size: 20px; color: #ff6b81; animation: heart-beat 1.5s infinite; }
         
         .horoscope-body { border-top: 1px dashed rgba(255, 107, 129, 0.3); padding-top: 12px; }
-        .sync-score { font-size: 14px; color: #555; margin-bottom: 6px; }
+        .sync-score { font-size: 13px; color: #555; margin-bottom: 6px; }
         #sync-score-num { font-size: 18px; font-weight: bold; color: #ff6b81; }
-        .horoscope-tip { font-size: 12px; color: #777; line-height: 1.4; }
+        .horoscope-tip { font-size: 11px; color: #777; line-height: 1.4; }
 
-        /* 按钮与底部 */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* === 6. 底部菜单 === */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .menu-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none; background: #fff; color: #555;
-            border: 1.5px solid #ffe4e1; padding: 12px 0; border-radius: 16px;
+            border: 1.5px solid #ffe4e1; padding: 10px 0; border-radius: 16px;
             font-size: 0.95rem; font-weight: bold; box-shadow: 0 4px 10px rgba(255, 182, 193, 0.15);
             transition: all 0.2s ease;
         }
-        .menu-btn:hover {
-            transform: translateY(-2px); background: #fff0f5;
-            border-color: #ffb6c1; color: #ff6b81;
-        }
-        .footer {
-            margin-top: 25px; font-size: 0.7rem; color: #b0a4a6; 
-            text-align: center; line-height: 1.6; padding: 0 5px;
-        }
+        .menu-btn:hover { transform: translateY(-2px); background: #fff0f5; border-color: #ffb6c1; color: #ff6b81; }
+        .footer { margin-top: 20px; font-size: 0.7rem; color: #b0a4a6; text-align: center; line-height: 1.5; padding: 0 5px; }
     </style>
 </head>
 <body onclick="firstClickPlay()">
@@ -170,12 +164,10 @@
 
     <div id="musicBtn" class="music-btn" onclick="toggleMusic(event)">🎵</div>
     <div id="musicTip" class="music-tip">点我播放音乐哦</div>
-
     <div class="deco-container" id="deco-box"></div>
 
     <div class="card-wrapper">
         <div class="main-card">
-            
             <div class="card-header">
                 <div class="cats-box">
                     <svg viewBox="0 0 240 110" width="100%" height="100%">
@@ -244,6 +236,25 @@
                     我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
                 </div>
 
+                <div class="weather-container">
+                    <div class="weather-box">
+                        <div class="city-name" id="zhu-city">📍 昆明</div>
+                        <div class="weather-temp" id="zhu-temp">--°C</div>
+                        <div class="weather-cond" id="zhu-cond">--</div>
+                    </div>
+                    
+                    <div class="weather-divider">
+                        <div class="plane-icon">✈️</div>
+                        <div class="distance-text">跨越 1520 km</div>
+                    </div>
+                    
+                    <div class="weather-box">
+                        <div class="city-name" id="shi-city">📍 新郑</div>
+                        <div class="weather-temp" id="shi-temp">--°C</div>
+                        <div class="weather-cond" id="shi-cond">--</div>
+                    </div>
+                </div>
+
                 <div id="horoscope-module" class="horoscope-container">
                     <div class="horo-top-section">
                         <div class="zodiac-person">
@@ -270,9 +281,7 @@
                     </div>
                     
                     <div class="horoscope-body">
-                        <div class="sync-score">
-                            今日专属默契 <span id="sync-score-num">--</span>%
-                        </div>
+                        <div class="sync-score">今日专属默契 <span id="sync-score-num">--</span>%</div>
                         <div class="horoscope-tip">宜忌：<span id="horoscope-tip-text">...正在与星轨交汇...</span></div>
                     </div>
                 </div>
@@ -290,20 +299,19 @@
     </div>
 
     <script>
-        // 1. 倒计时与动画
-        var anniversary = new Date(2026, 1, 21); 
+        // --- 统一配置区域 ---
+        const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; // 你的真实天行数据密钥
+        const anniversary = new Date(2026, 1, 21); // 纪念日
 
+        // 1. 倒计时
         function updateTimer() {
-            var now = new Date();
-            now.setHours(0,0,0,0);
-            var start = new Date(anniversary);
-            start.setHours(0,0,0,0);
-            var diffTime = now - start;
-            var diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays < 0) diffDays = 0;
-            document.getElementById('days-counter').innerHTML = diffDays;
+            var now = new Date(); now.setHours(0,0,0,0);
+            var start = new Date(anniversary); start.setHours(0,0,0,0);
+            var diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            document.getElementById('days-counter').innerHTML = diffDays > 0 ? diffDays : 0;
         }
 
+        // 2. 漂浮动画
         function createDeco() {
             var container = document.getElementById('deco-box');
             if(!container) return;
@@ -313,142 +321,101 @@
                 item.className = 'float-item';
                 item.style.left = Math.random() * 100 + '%';
                 item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-                var size = Math.random() * 12 + 12;
-                item.style.fontSize = size + 'px';
                 var duration = Math.random() * 4 + 4;
+                item.style.fontSize = (Math.random() * 12 + 12) + 'px';
                 item.style.animationDuration = duration + 's';
                 container.appendChild(item);
                 setTimeout(function() { item.remove(); }, duration * 1000);
             }, 500); 
         }
 
-        // 2. 音乐播放逻辑
-        var bgMusic = document.getElementById('bgMusic');
-        var musicBtn = document.getElementById('musicBtn');
-        var musicTip = document.getElementById('musicTip');
-        var isPlaying = false;
-        var hasClicked = false;
-
+        // 3. 音乐控制
+        var bgMusic = document.getElementById('bgMusic'), musicBtn = document.getElementById('musicBtn');
+        var musicTip = document.getElementById('musicTip'), isPlaying = false, hasClicked = false;
         function toggleMusic(event) {
-            event.stopPropagation(); 
-            hasClicked = true;
+            event.stopPropagation(); hasClicked = true;
             if(musicTip) musicTip.style.opacity = '0'; 
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.classList.remove('playing');
-                isPlaying = false;
-            } else {
-                bgMusic.play();
-                musicBtn.classList.add('playing');
-                isPlaying = true;
-            }
+            if (isPlaying) { bgMusic.pause(); musicBtn.classList.remove('playing'); isPlaying = false; } 
+            else { bgMusic.play(); musicBtn.classList.add('playing'); isPlaying = true; }
         }
-
         function firstClickPlay() {
-            if (!hasClicked && !isPlaying) {
-                bgMusic.play();
-                musicBtn.classList.add('playing');
-                if(musicTip) musicTip.style.opacity = '0';
-                isPlaying = true;
-                hasClicked = true;
-            }
+            if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
-        // 3. 终极版星象抓取逻辑
+        // 4. 双城天气获取
+        async function fetchDualCityWeather() {
+            try {
+                const [resZhu, resShi] = await Promise.all([
+                    fetch(`https://apis.tianapi.com/tianqi/index?key=${API_KEY}&city=昆明&type=1`),
+                    fetch(`https://apis.tianapi.com/tianqi/index?key=${API_KEY}&city=新郑&type=1`)
+                ]);
+                const dataZhu = await resZhu.json(), dataShi = await resShi.json();
+                if(dataZhu.code === 200) {
+                    document.getElementById("zhu-temp").innerText = dataZhu.result.temp + "°C";
+                    document.getElementById("zhu-cond").innerText = dataZhu.result.weather;
+                }
+                if(dataShi.code === 200) {
+                    document.getElementById("shi-temp").innerText = dataShi.result.temp + "°C";
+                    document.getElementById("shi-cond").innerText = dataShi.result.weather;
+                }
+            } catch (error) { console.error("天气获取失败:", error); }
+        }
+
+        // 5. 星象与默契仪表盘
         const tipDatabase = {
-          high: [ 
-            "宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", 
-            "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"
-          ],
-          medium: [ 
-            "宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", 
-            "宜：视频聊天10分钟", "宜：推荐一部好看的电影"
-          ],
-          low: [ 
-            "忌：提起旧事", "宜：一个温柔的拥抱", "宜：耐心地倾听对方吐槽", 
-            "宜：给对方做一个搞怪表情", "宜：一起打一把游戏"
-          ]
+          high: ["宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"],
+          medium: ["宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", "宜：视频聊天10分钟", "宜：推荐一部好看的电影"],
+          low: ["忌：提起旧事", "宜：一个温柔的拥抱", "宜：耐心地倾听对方吐槽", "宜：给对方做一个搞怪表情", "宜：一起打一把游戏"]
         };
-
         function getStarIndex(list, typeName, defaultVal = 85) {
-            const item = list.find(i => i.type === typeName);
-            return item ? parseInt(item.content) : defaultVal;
-        }
-
-        async function fetchHoroscopeData() {
-          // 这里已经帮你预填了你截图里的真实 Key
-          const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
-          try {
-            const responseZhu = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`);
-            const resultZhu = await responseZhu.json();
-            let dataZhu = { overall: 85, love: 85, work: 85, wealth: 85 };
-            if(resultZhu.code === 200) {
-              dataZhu.overall = getStarIndex(resultZhu.result.list, "综合指数");
-              dataZhu.love = getStarIndex(resultZhu.result.list, "爱情指数");
-              dataZhu.work = getStarIndex(resultZhu.result.list, "工作指数");
-              dataZhu.wealth = getStarIndex(resultZhu.result.list, "财运指数");
-            }
-
-            const responseShi = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`);
-            const resultShi = await responseShi.json();
-            let dataShi = { overall: 85, love: 85, work: 85, wealth: 85 };
-            if(resultShi.code === 200) {
-              dataShi.overall = getStarIndex(resultShi.result.list, "综合指数");
-              dataShi.love = getStarIndex(resultShi.result.list, "爱情指数");
-              dataShi.work = getStarIndex(resultShi.result.list, "工作指数");
-              dataShi.wealth = getStarIndex(resultShi.result.list, "财运指数");
-            }
-            return { mrZhu: dataZhu, msShi: dataShi };
-          } catch (error) {
-            console.error("请求接口失败:", error);
-            return { 
-                mrZhu: { overall: 85, love: 85, work: 85, wealth: 85 }, 
-                msShi: { overall: 85, love: 85, work: 85, wealth: 85 } 
-            };
-          }
+            const item = list.find(i => i.type === typeName); return item ? parseInt(item.content) : defaultVal;
         }
 
         async function updateDailyHoroscopeSync() {
-          let data;
-          try {
-            data = await fetchHoroscopeData(); 
-          } catch (error) {
-            document.getElementById("horoscope-tip-text").innerText = "星轨迷路了，默契需要你们自己写。";
-            return;
-          }
+            try {
+                const [resZhu, resShi] = await Promise.all([
+                    fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`),
+                    fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`)
+                ]);
+                const resultZhu = await resZhu.json(), resultShi = await resShi.json();
+                let zLove = 85, sLove = 85;
 
-          document.getElementById("zhu-overall").innerText = data.mrZhu.overall;
-          document.getElementById("zhu-love").innerText = data.mrZhu.love;
-          document.getElementById("zhu-work").innerText = data.mrZhu.work;
-          document.getElementById("zhu-wealth").innerText = data.mrZhu.wealth;
-          
-          document.getElementById("shi-overall").innerText = data.msShi.overall;
-          document.getElementById("shi-love").innerText = data.msShi.love;
-          document.getElementById("shi-work").innerText = data.msShi.work;
-          document.getElementById("shi-wealth").innerText = data.msShi.wealth;
+                if(resultZhu.code === 200) {
+                    document.getElementById("zhu-overall").innerText = getStarIndex(resultZhu.result.list, "综合指数");
+                    zLove = getStarIndex(resultZhu.result.list, "爱情指数");
+                    document.getElementById("zhu-love").innerText = zLove;
+                    document.getElementById("zhu-work").innerText = getStarIndex(resultZhu.result.list, "工作指数");
+                    document.getElementById("zhu-wealth").innerText = getStarIndex(resultZhu.result.list, "财运指数");
+                }
+                if(resultShi.code === 200) {
+                    document.getElementById("shi-overall").innerText = getStarIndex(resultShi.result.list, "综合指数");
+                    sLove = getStarIndex(resultShi.result.list, "爱情指数");
+                    document.getElementById("shi-love").innerText = sLove;
+                    document.getElementById("shi-work").innerText = getStarIndex(resultShi.result.list, "工作指数");
+                    document.getElementById("shi-wealth").innerText = getStarIndex(resultShi.result.list, "财运指数");
+                }
 
-          let baseScore = (data.mrZhu.love + data.msShi.love) / 2;
-          let today = new Date();
-          let dateSeed = today.getFullYear() + today.getMonth() + today.getDate(); 
-          let randomOffset = (dateSeed % 5) - 2; 
-          let finalSyncScore = Math.round(baseScore + randomOffset);
-          if (finalSyncScore > 100) finalSyncScore = 100;
+                let baseScore = (zLove + sLove) / 2;
+                let today = new Date(); let dateSeed = today.getFullYear() + today.getMonth() + today.getDate(); 
+                let randomOffset = (dateSeed % 5) - 2; 
+                let finalSyncScore = Math.round(baseScore + randomOffset);
+                if (finalSyncScore > 100) finalSyncScore = 100;
 
-          let tipList;
-          if (finalSyncScore >= 90) { tipList = tipDatabase.high; } 
-          else if (finalSyncScore >= 80) { tipList = tipDatabase.medium; } 
-          else { tipList = tipDatabase.low; }
-          
-          document.getElementById("sync-score-num").innerText = finalSyncScore;
-          document.getElementById("horoscope-tip-text").innerText = tipList[dateSeed % tipList.length];
+                let tipList = finalSyncScore >= 90 ? tipDatabase.high : (finalSyncScore >= 80 ? tipDatabase.medium : tipDatabase.low);
+                document.getElementById("sync-score-num").innerText = finalSyncScore;
+                document.getElementById("horoscope-tip-text").innerText = tipList[dateSeed % tipList.length];
+            } catch (error) {
+                document.getElementById("horoscope-tip-text").innerText = "星轨迷路了，默契需要你们自己写。";
+            }
         }
 
-        // 4. 总开关
+        // --- 6. 统一启动引擎 ---
         window.onload = function() {
             updateTimer();
             createDeco(); 
             setTimeout(function() { if(musicTip) musicTip.style.opacity = '0'; }, 5000);
-            updateDailyHoroscopeSync();
+            fetchDualCityWeather(); // 启动天气
+            updateDailyHoroscopeSync(); // 启动星象
         };
     </script>
 </body>
