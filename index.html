@@ -5,65 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎀 我们的恋爱秘密基地 🎀</title>
     <style>
-        /* 星象模块整体容器 */
+      /* --- 星象仪表盘样式 --- */
 .horoscope-container {
-  background-color: rgba(255, 255, 255, 0.7); /* 半透明白色，浮在背景上 */
-  border-radius: 12px;
-  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 16px 15px;
   margin: 20px auto;
-  max-width: 320px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* 轻微阴影 */
+  max-width: 340px; /* 稍微加宽一点点以容纳更多数据 */
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
   text-align: center;
 }
 
-/* 头部星座排列 */
-.horoscope-header {
+.horo-top-section {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.zodiac-sign {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #555;
-  font-size: 13px;
+/* 个人数据小面板 */
+.zodiac-person {
+  background: #fff0f5; 
+  padding: 10px;
+  border-radius: 12px;
+  width: 42%; /* 占据两边合适的宽度 */
+  box-shadow: inset 0 0 8px rgba(255, 182, 193, 0.2);
 }
 
-.zodiac-icon {
-  font-size: 24px;
-  margin-bottom: 3px;
+.zodiac-title {
+  font-size: 13px; font-weight: bold; color: #555; 
+  margin-bottom: 8px; padding-bottom: 5px;
+  border-bottom: 1px dashed rgba(255, 182, 193, 0.6);
 }
 
-.heart-icon {
-  color: #ff6b81; /* 经典的粉红心型颜色 */
-  font-size: 20px;
+.zodiac-icon { font-size: 16px; vertical-align: middle; }
+
+/* 2x2 数据网格 */
+.zodiac-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 2px;
 }
 
-/* 身体部分：分数和文案 */
+.stat-item { font-size: 10px; color: #666; white-space: nowrap; }
+.stat-item span { font-weight: bold; color: #ff6b81; font-size: 11px; }
+
+.heart-pulse { 
+  font-size: 20px; color: #ff6b81;
+  animation: heart-beat 1.5s infinite; 
+}
+
 .horoscope-body {
-  border-top: 1px solid rgba(0, 0, 0, 0.05); /* 极细分割线 */
-  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 107, 129, 0.3); 
+  padding-top: 12px;
 }
 
-.sync-score {
-  font-size: 15px;
-  color: #444;
-  margin-bottom: 6px;
-}
-
-#sync-score-num {
-  font-weight: bold;
-  color: #ff6b81; /* 分数用强调色 */
-}
-
-.horoscope-tip {
-  font-size: 12px;
-  color: #777; /* 辅助文字用淡灰色 */
-  line-height: 1.4;
-}
+.sync-score { font-size: 14px; color: #555; margin-bottom: 6px; }
+#sync-score-num { font-size: 18px; font-weight: bold; color: #ff6b81; }
+.horoscope-tip { font-size: 12px; color: #777; line-height: 1.4; }
         /* 全局基础样式 */
         body, html {
             margin: 0;
@@ -427,17 +426,37 @@
                     我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
                 </div>
 <div id="horoscope-module" class="horoscope-container">
-  <div class="horoscope-header">
-    <div class="zodiac-sign">
-      <span class="zodiac-icon">♒️</span>
-      <span class="zodiac-name">水瓶男</span>
+  <div class="horo-top-section">
+    <div class="zodiac-person">
+      <div class="zodiac-title"><span class="zodiac-icon">♒️</span> 水瓶男</div>
+      <div class="zodiac-stats">
+        <div class="stat-item">综合 <span id="zhu-overall">--</span>%</div>
+        <div class="stat-item">爱情 <span id="zhu-love">--</span>%</div>
+        <div class="stat-item">工作 <span id="zhu-work">--</span>%</div>
+        <div class="stat-item">财运 <span id="zhu-wealth">--</span>%</div>
+      </div>
     </div>
-    <div class="heart-icon">❤️</div>
-    <div class="zodiac-sign">
-      <span class="zodiac-icon">♎️</span>
-      <span class="zodiac-name">天秤女</span>
+    
+    <div class="heart-pulse">❤️</div>
+    
+    <div class="zodiac-person">
+      <div class="zodiac-title"><span class="zodiac-icon">♎️</span> 天秤女</div>
+      <div class="zodiac-stats">
+        <div class="stat-item">综合 <span id="shi-overall">--</span>%</div>
+        <div class="stat-item">爱情 <span id="shi-love">--</span>%</div>
+        <div class="stat-item">工作 <span id="shi-work">--</span>%</div>
+        <div class="stat-item">财运 <span id="shi-wealth">--</span>%</div>
+      </div>
     </div>
   </div>
+  
+  <div class="horoscope-body">
+    <div class="sync-score">
+      今日专属默契 <span id="sync-score-num">--</span>%
+    </div>
+    <div class="horoscope-tip">宜忌：<span id="horoscope-tip-text">...正在与星轨交汇...</span></div>
+  </div>
+</div>
   <div class="horoscope-body">
     <div class="sync-score">
       今日默契指数 <span id="sync-score-num">--</span>%
@@ -550,32 +569,49 @@
           ]
         };
 
+       // 辅助函数：专门用来从天行数据列表里提取特定的指数
+        function getStarIndex(list, typeName, defaultVal = 85) {
+            const item = list.find(i => i.type === typeName);
+            return item ? parseInt(item.content) : defaultVal;
+        }
+
         async function fetchHoroscopeData() {
-          // 👇 【重点】请把你从天行数据复制的 API Key，粘贴在这两个双引号中间！
-          // 例如: const API_KEY = "123abc456def"; (千万不要删掉两边的引号)
+          // 👇 务必在此处重新填入你的真实 API KEY！
           const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
 
           try {
+            // 获取水瓶男全量数据
             const responseZhu = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`);
             const resultZhu = await responseZhu.json();
-            let loveIndexZhu = 85; 
+            let dataZhu = { overall: 85, love: 85, work: 85, wealth: 85 };
+            
             if(resultZhu.code === 200) {
-              const loveData = resultZhu.result.list.find(item => item.type === "爱情指数");
-              if(loveData) loveIndexZhu = parseInt(loveData.content); 
+              dataZhu.overall = getStarIndex(resultZhu.result.list, "综合指数");
+              dataZhu.love = getStarIndex(resultZhu.result.list, "爱情指数");
+              dataZhu.work = getStarIndex(resultZhu.result.list, "工作指数");
+              dataZhu.wealth = getStarIndex(resultZhu.result.list, "财运指数");
             }
 
+            // 获取天秤女全量数据
             const responseShi = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`);
             const resultShi = await responseShi.json();
-            let loveIndexShi = 85; 
+            let dataShi = { overall: 85, love: 85, work: 85, wealth: 85 };
+            
             if(resultShi.code === 200) {
-              const loveData = resultShi.result.list.find(item => item.type === "爱情指数");
-              if(loveData) loveIndexShi = parseInt(loveData.content);
+              dataShi.overall = getStarIndex(resultShi.result.list, "综合指数");
+              dataShi.love = getStarIndex(resultShi.result.list, "爱情指数");
+              dataShi.work = getStarIndex(resultShi.result.list, "工作指数");
+              dataShi.wealth = getStarIndex(resultShi.result.list, "财运指数");
             }
 
-            return { mrZhu: { love_index: loveIndexZhu }, msShi: { love_index: loveIndexShi } };
+            return { mrZhu: dataZhu, msShi: dataShi };
           } catch (error) {
             console.error("请求接口失败:", error);
-            return { mrZhu: { love_index: 85 }, msShi: { love_index: 85 } };
+            // 失败时的保底数据
+            return { 
+                mrZhu: { overall: 85, love: 85, work: 85, wealth: 85 }, 
+                msShi: { overall: 85, love: 85, work: 85, wealth: 85 } 
+            };
           }
         }
 
@@ -584,21 +620,32 @@
           try {
             data = await fetchHoroscopeData(); 
           } catch (error) {
-            document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
+            document.getElementById("horoscope-tip-text").innerText = "星轨迷路了，默契需要你们自己写。";
             return;
           }
 
-         let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
+          // 1. 将所有数据填入前端的 2x2 网格
+          // 水瓶男数据
+          document.getElementById("zhu-overall").innerText = data.mrZhu.overall;
+          document.getElementById("zhu-love").innerText = data.mrZhu.love;
+          document.getElementById("zhu-work").innerText = data.mrZhu.work;
+          document.getElementById("zhu-wealth").innerText = data.mrZhu.wealth;
           
-          // 👇 核心修改：获取今天的日期（年+月+日）作为一整天不变的“计算种子”
+          // 天秤女数据
+          document.getElementById("shi-overall").innerText = data.msShi.overall;
+          document.getElementById("shi-love").innerText = data.msShi.love;
+          document.getElementById("shi-work").innerText = data.msShi.work;
+          document.getElementById("shi-wealth").innerText = data.msShi.wealth;
+
+          // 2. 计算专属默契度 (基于两人的爱情指数)
+          let baseScore = (data.mrZhu.love + data.msShi.love) / 2;
           let today = new Date();
           let dateSeed = today.getFullYear() + today.getMonth() + today.getDate(); 
-
-          // 利用日期种子计算固定的波动 (-2 到 +2)，今天内怎么刷新都不变
           let randomOffset = (dateSeed % 5) - 2; 
           let finalSyncScore = Math.round(baseScore + randomOffset);
           if (finalSyncScore > 100) finalSyncScore = 100;
 
+          // 3. 匹配文案并渲染
           let tipList;
           if (finalSyncScore >= 90) {
             tipList = tipDatabase.high;
@@ -607,29 +654,9 @@
           } else {
             tipList = tipDatabase.low;
           }
-          
-          // 👇 核心修改：利用日期种子在列表里挑出一句话，今天内固定显示这一句
-          const randomTip = tipList[dateSeed % tipList.length];
-
           document.getElementById("sync-score-num").innerText = finalSyncScore;
-          document.getElementById("horoscope-tip-text").innerText = randomTip;
+          document.getElementById("horoscope-tip-text").innerText = tipList[dateSeed % tipList.length];
         }
-
-        // ==========================================
-        // 4. 页面加载完毕后的【总控开关】
-        // ==========================================
-        window.onload = function() {
-            // 启动倒计时
-            updateTimer();
-            // 启动动画
-            createDeco(); 
-            // 隐藏音乐提示气泡
-            setTimeout(function() {
-                if(musicTip) musicTip.style.opacity = '0';
-            }, 5000);
-            // 启动星象接口
-            updateDailyHoroscopeSync();
-        };
     </script>
         
     </div>
