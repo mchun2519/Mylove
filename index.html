@@ -6,24 +6,25 @@
     <title>🎀 我们的恋爱秘密基地 🎀</title>
     <style>
         /* === 1. 全局与基础样式 === */
-       body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%; /* 这里改为 min-height */
-    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background-color: #ffe6eb;
-    background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
-    overflow: auto; /* 这里改为 auto，允许手机滚动 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* 确保垂直排列 */
-}
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh; /* 确保最小高度占满屏幕 */
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #ffe6eb;
+            background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
+            overflow-x: hidden; /* 防止横向滑动 */
+            overflow-y: auto;   /* 允许纵向滑动 */
+            /* ⚠️ 核心修复：删除了这里的 flex 强制垂直居中，解决手机端顶部被裁切问题 */
+        }
+
         .deco-container {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            position: fixed; /* ⚠️ 核心修复：改为 fixed，滑动时花瓣动画不会跟着跑掉 */
+            width: 100%; height: 100%; top: 0; left: 0;
             pointer-events: none; z-index: 1; overflow: hidden;
         }
+
         .float-item {
             position: absolute; bottom: -30px; pointer-events: none; opacity: 0;
             animation: float-up linear forwards;
@@ -63,8 +64,11 @@
         /* === 3. 主卡片布局 === */
         .card-wrapper {
             width: 85%; max-width: 380px; position: relative; z-index: 10;
-            margin-top: 60px; display: flex; flex-direction: column; align-items: center;
+            /* ⚠️ 核心修复：130px 给猫咪留出空间，auto 保证水平居中，60px 保证滑到底部有留白 */
+            margin: 130px auto 60px auto; 
+            display: flex; flex-direction: column; align-items: center;
         }
+
         .main-card {
             width: 100%; background: #ffffff; border-radius: 24px;
             box-shadow: 0 10px 30px rgba(255, 154, 162, 0.3);
@@ -304,11 +308,9 @@
     </div>
 
     <script>
-        // --- 统一配置区域 ---
-        const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; // 你的真实天行数据密钥
-        const anniversary = new Date(2026, 1, 21); // 纪念日
+        const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
+        const anniversary = new Date(2026, 1, 21); 
 
-        // 1. 倒计时
         function updateTimer() {
             var now = new Date(); now.setHours(0,0,0,0);
             var start = new Date(anniversary); start.setHours(0,0,0,0);
@@ -316,7 +318,6 @@
             document.getElementById('days-counter').innerHTML = diffDays > 0 ? diffDays : 0;
         }
 
-        // 2. 漂浮动画
         function createDeco() {
             var container = document.getElementById('deco-box');
             if(!container) return;
@@ -334,7 +335,6 @@
             }, 500); 
         }
 
-        // 3. 音乐控制
         var bgMusic = document.getElementById('bgMusic'), musicBtn = document.getElementById('musicBtn');
         var musicTip = document.getElementById('musicTip'), isPlaying = false, hasClicked = false;
         function toggleMusic(event) {
@@ -347,7 +347,6 @@
             if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
-       // 4. 双城天气获取
         async function fetchDualCityWeather() {
             try {
                 const [resZhu, resShi] = await Promise.all([
@@ -356,19 +355,16 @@
                 ]);
                 const dataZhu = await resZhu.json(), dataShi = await resShi.json();
                 if(dataZhu.code === 200) {
-                    // 修复：天行数据返回实时温度的字段名为 real
                     document.getElementById("zhu-temp").innerText = dataZhu.result.real + "°C";
                     document.getElementById("zhu-cond").innerText = dataZhu.result.weather;
                 }
                 if(dataShi.code === 200) {
-                    // 修复：天行数据返回实时温度的字段名为 real
                     document.getElementById("shi-temp").innerText = dataShi.result.real + "°C";
                     document.getElementById("shi-cond").innerText = dataShi.result.weather;
                 }
             } catch (error) { console.error("天气获取失败:", error); }
         }
 
-        // 5. 星象与默契仪表盘
         const tipDatabase = {
           high: ["宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"],
           medium: ["宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", "宜：视频聊天10分钟", "宜：推荐一部好看的电影"],
@@ -416,13 +412,12 @@
             }
         }
 
-        // --- 6. 统一启动引擎 ---
         window.onload = function() {
             updateTimer();
             createDeco(); 
             setTimeout(function() { if(musicTip) musicTip.style.opacity = '0'; }, 5000);
-            fetchDualCityWeather(); // 启动天气
-            updateDailyHoroscopeSync(); // 启动星象
+            fetchDualCityWeather(); 
+            updateDailyHoroscopeSync(); 
         };
     </script>
 </body>
