@@ -588,8 +588,14 @@
             return;
           }
 
-          let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
-          let randomOffset = (Math.random() * 4) - 2; 
+         let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
+          
+          // 👇 核心修改：获取今天的日期（年+月+日）作为一整天不变的“计算种子”
+          let today = new Date();
+          let dateSeed = today.getFullYear() + today.getMonth() + today.getDate(); 
+
+          // 利用日期种子计算固定的波动 (-2 到 +2)，今天内怎么刷新都不变
+          let randomOffset = (dateSeed % 5) - 2; 
           let finalSyncScore = Math.round(baseScore + randomOffset);
           if (finalSyncScore > 100) finalSyncScore = 100;
 
@@ -601,7 +607,9 @@
           } else {
             tipList = tipDatabase.low;
           }
-          const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+          
+          // 👇 核心修改：利用日期种子在列表里挑出一句话，今天内固定显示这一句
+          const randomTip = tipList[dateSeed % tipList.length];
 
           document.getElementById("sync-score-num").innerText = finalSyncScore;
           document.getElementById("horoscope-tip-text").innerText = randomTip;
