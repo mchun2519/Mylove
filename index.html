@@ -566,7 +566,45 @@
         };
 
         // --- (2) 模拟 API 数据获取函数 ---
-        async function mockFetchHoroscopeData() {
+       // --- (2) 真实 API 数据获取函数 ---
+async function fetchHoroscopeData() {
+  // 👇 重要：将这里的 "你的API_KEY" 替换成你在天聚数行【控制台】里看到的真实 Key (一串字母数字)
+  const API_KEY = "你的API_KEY"; 
+
+  try {
+    // 1. 获取朱先生（水瓶座/aquarius）的今日运势
+    const responseZhu = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`);
+    const resultZhu = await responseZhu.json();
+    let loveIndexZhu = 85; // 默认保底分
+    
+    // 解析天行数据返回的爱情指数 (它返回的是 result.list 数组)
+    if(resultZhu.code === 200) {
+      const loveData = resultZhu.result.list.find(item => item.type === "爱情指数");
+      // 天行数据返回的内容带百分号，比如 "80%"，这里用 parseInt 提取数字 80
+      if(loveData) loveIndexZhu = parseInt(loveData.content); 
+    }
+
+    // 2. 获取时女士（天秤座/libra）的今日运势
+    const responseShi = await fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`);
+    const resultShi = await responseShi.json();
+    let loveIndexShi = 85; 
+    
+    if(resultShi.code === 200) {
+      const loveData = resultShi.result.list.find(item => item.type === "爱情指数");
+      if(loveData) loveIndexShi = parseInt(loveData.content);
+    }
+
+    return { 
+      mrZhu: { love_index: loveIndexZhu }, 
+      msShi: { love_index: loveIndexShi } 
+    };
+
+  } catch (error) {
+    console.error("请求真实星象接口失败:", error);
+    // 即使网络请求失败，也返回一个保底分数，保证页面 UI 不会白屏崩溃
+    return { mrZhu: { love_index: 85 }, msShi: { love_index: 85 } };
+  }
+} {
           console.log("正在模拟从后台抓取星座运势数据...");
           
           const mrZhuData = {
@@ -586,40 +624,45 @@
           return { mrZhu: mrZhuData, msShi: msShiData };
         }
 
-        // --- (3) 核心逻辑：计算并更新 UI ---
-        async function updateDailyHoroscopeSync() {
-          let data;
-          try {
-            data = await mockFetchHoroscopeData();
-          } catch (error) {
-            console.error("获取星座数据失败:", error);
-            document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
-            return;
-          }
+       // --- (3) 核心逻辑：计算并更新 UI ---
+async function updateDailyHoroscopeSync() {
+  // 1. 获取数据
+  let data;
+  try {
+    // 👇 这里已经帮你替换成了真实的请求函数 fetchHoroscopeData
+    data = await fetchHoroscopeData(); 
+  } catch (error) {
+    console.error("获取星座数据失败:", error);
+    document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
+    return;
+  }
 
-          let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
-          let randomOffset = (Math.random() * 4) - 2; 
-          let finalSyncScore = Math.round(baseScore + randomOffset);
-          if (finalSyncScore > 100) finalSyncScore = 100;
+  // 2. 极简处理逻辑：计算默契指数
+  let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
+  let randomOffset = (Math.random() * 4) - 2; 
+  let finalSyncScore = Math.round(baseScore + randomOffset);
+  if (finalSyncScore > 100) finalSyncScore = 100;
 
-          let tipList;
-          if (finalSyncScore >= 90) {
-            tipList = tipDatabase.high;
-          } else if (finalSyncScore >= 80) {
-            tipList = tipDatabase.medium;
-          } else {
-            tipList = tipDatabase.low;
-          }
-          const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+  // 3. 匹配自定义文案
+  let tipList;
+  if (finalSyncScore >= 90) {
+    tipList = tipDatabase.high;
+  } else if (finalSyncScore >= 80) {
+    tipList = tipDatabase.medium;
+  } else {
+    tipList = tipDatabase.low;
+  }
+  const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
 
-          document.getElementById("sync-score-num").innerText = finalSyncScore;
-          document.getElementById("horoscope-tip-text").innerText = randomTip;
-        }
-
+  // 4. 更新前端 UI
+  document.getElementById("sync-score-num").innerText = finalSyncScore;
+  document.getElementById("horoscope-tip-text").innerText = randomTip;
+}
         // 页面加载完成后立即执行星象更新
         document.addEventListener("DOMContentLoaded", function() {
           updateDailyHoroscopeSync();
         });
 
-    </script> </body>
+    </script> 
+</body>
 </html>
