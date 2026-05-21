@@ -314,7 +314,7 @@
             API_KEY: "f88105d5886260b30df1c7e6b74128e0", 
             anniversary: new Date(2026, 1, 21), 
             cityZhu: "昆明",          // 朱先生所在的城市
-            cityShi: "新郑",          // 时女士所在的城市 (例如以后改为"无锡")
+            cityShi: "新郑",          // 时女士所在的城市 
             distanceKm: 1520,         // 两座城市的现实距离
             commuteKm: 8              // 时女士每天上下班往返的总公里数
         };
@@ -367,7 +367,7 @@
             
             // 浪漫计算：总距离除以每天通勤的公里数，并四舍五入取整
             let commuteTrips = Math.round(CONFIG.distanceKm / CONFIG.commuteKm);
-            document.getElementById("commute-val").innerText = "相当于时女士往返 " + commuteTrips + " 趟";
+            document.getElementById("commute-val").innerText = "相当于时女士从家到公司往返 " + commuteTrips + " 趟";
 
             try {
                 const [resZhu, resShi] = await Promise.all([
