@@ -342,7 +342,7 @@
             if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
-        // 4. 双城天气获取
+       // 4. 双城天气获取
         async function fetchDualCityWeather() {
             try {
                 const [resZhu, resShi] = await Promise.all([
@@ -351,11 +351,13 @@
                 ]);
                 const dataZhu = await resZhu.json(), dataShi = await resShi.json();
                 if(dataZhu.code === 200) {
-                    document.getElementById("zhu-temp").innerText = dataZhu.result.temp + "°C";
+                    // 修复：天行数据返回实时温度的字段名为 real
+                    document.getElementById("zhu-temp").innerText = dataZhu.result.real + "°C";
                     document.getElementById("zhu-cond").innerText = dataZhu.result.weather;
                 }
                 if(dataShi.code === 200) {
-                    document.getElementById("shi-temp").innerText = dataShi.result.temp + "°C";
+                    // 修复：天行数据返回实时温度的字段名为 real
+                    document.getElementById("shi-temp").innerText = dataShi.result.real + "°C";
                     document.getElementById("shi-cond").innerText = dataShi.result.weather;
                 }
             } catch (error) { console.error("天气获取失败:", error); }
