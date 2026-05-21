@@ -7,21 +7,15 @@
     <style>
         /* === 1. 全局与基础样式 === */
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh; /* 确保最小高度占满屏幕 */
+            margin: 0; padding: 0; width: 100%; min-height: 100vh;
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background-color: #ffe6eb;
             background-image: radial-gradient(circle at 50% 0%, #fff0f5 0%, #ffe6eb 70%, #ffd1dc 100%);
-            overflow-x: hidden; /* 防止横向滑动 */
-            overflow-y: auto;   /* 允许纵向滑动 */
-            /* ⚠️ 核心修复：删除了这里的 flex 强制垂直居中，解决手机端顶部被裁切问题 */
+            overflow-x: hidden; overflow-y: auto; 
         }
 
         .deco-container {
-            position: fixed; /* ⚠️ 核心修复：改为 fixed，滑动时花瓣动画不会跟着跑掉 */
-            width: 100%; height: 100%; top: 0; left: 0;
+            position: fixed; width: 100%; height: 100%; top: 0; left: 0;
             pointer-events: none; z-index: 1; overflow: hidden;
         }
 
@@ -64,7 +58,6 @@
         /* === 3. 主卡片布局 === */
         .card-wrapper {
             width: 85%; max-width: 380px; position: relative; z-index: 10;
-            /* ⚠️ 核心修复：130px 给猫咪留出空间，auto 保证水平居中，60px 保证滑到底部有留白 */
             margin: 130px auto 60px auto; 
             display: flex; flex-direction: column; align-items: center;
         }
@@ -105,24 +98,29 @@
             margin: 0 10px; box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
 
-        /* === 4. 双城天气 & 浪漫距离 === */
+        /* === 4. 双城天气 & 浪漫算法 === */
         .weather-container {
             display: flex; justify-content: space-between; align-items: center;
             background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
-            padding: 12px 15px; margin: 0 auto 20px auto; max-width: 340px;
+            padding: 12px 10px; margin: 0 auto 20px auto; max-width: 340px;
             box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
         }
-        .weather-box { text-align: center; width: 35%; }
+        .weather-box { text-align: center; width: 28%; }
         .city-name { font-size: 11px; color: #777; margin-bottom: 4px; font-weight: bold; }
         .weather-temp { font-size: 18px; font-weight: bold; color: #ff6b81; margin-bottom: 2px; }
         .weather-cond { font-size: 11px; color: #666; }
         
-        .weather-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 30%; }
+        .weather-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 44%; }
         .plane-icon { font-size: 20px; animation: float-horizontal 2.5s ease-in-out infinite alternate; }
         .distance-text { 
             font-size: 10px; color: #ff6b81; background: #fff0f5; 
             padding: 2px 6px; border-radius: 8px; margin-top: 4px; 
             font-weight: bold; white-space: nowrap; box-shadow: inset 0 0 4px rgba(255,182,193,0.3);
+        }
+        /* 浪漫通勤趟数文字 */
+        .commute-text {
+            font-size: 9px; color: #999; margin-top: 5px; font-weight: bold;
+            white-space: nowrap; transform: scale(0.95);
         }
         @keyframes float-horizontal { 0% { transform: translateX(-5px); } 100% { transform: translateX(5px); } }
 
@@ -247,18 +245,19 @@
 
                 <div class="weather-container">
                     <div class="weather-box">
-                        <div class="city-name" id="zhu-city">📍 昆明</div>
-                        <div class="weather-temp" id="zhu-temp">--</div>
+                        <div class="city-name" id="zhu-city">📍 --</div>
+                        <div class="weather-temp" id="zhu-temp">--°C</div>
                         <div class="weather-cond" id="zhu-cond">--</div>
                     </div>
                     
                     <div class="weather-divider">
                         <div class="plane-icon">✈️</div>
-                        <div class="distance-text">跨越 1520 km</div>
+                        <div class="distance-text" id="distance-val">跨越 -- km</div>
+                        <div class="commute-text" id="commute-val">相当于上班往返 -- 趟</div>
                     </div>
                     
                     <div class="weather-box">
-                        <div class="city-name" id="shi-city">📍 新郑</div>
+                        <div class="city-name" id="shi-city">📍 --</div>
                         <div class="weather-temp" id="shi-temp">--°C</div>
                         <div class="weather-cond" id="shi-cond">--</div>
                     </div>
@@ -308,16 +307,27 @@
     </div>
 
     <script>
-        const API_KEY = "f88105d5886260b30df1c7e6b74128e0"; 
-        const anniversary = new Date(2026, 1, 21); 
+        // ====================================================================
+        // 🌟 核心配置区 🌟 (以后换城市或改距离，只需要在这里修改即可，全站自动计算)
+        // ====================================================================
+        const CONFIG = {
+            API_KEY: "f88105d5886260b30df1c7e6b74128e0", 
+            anniversary: new Date(2026, 1, 21), 
+            cityZhu: "昆明",          // 朱先生所在的城市
+            cityShi: "新郑",          // 时女士所在的城市 (例如以后改为"无锡")
+            distanceKm: 1520,         // 两座城市的现实距离
+            commuteKm: 8              // 时女士每天上下班往返的总公里数
+        };
 
+        // 1. 倒计时
         function updateTimer() {
             var now = new Date(); now.setHours(0,0,0,0);
-            var start = new Date(anniversary); start.setHours(0,0,0,0);
+            var start = new Date(CONFIG.anniversary); start.setHours(0,0,0,0);
             var diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
             document.getElementById('days-counter').innerHTML = diffDays > 0 ? diffDays : 0;
         }
 
+        // 2. 漂浮动画
         function createDeco() {
             var container = document.getElementById('deco-box');
             if(!container) return;
@@ -335,6 +345,7 @@
             }, 500); 
         }
 
+        // 3. 音乐控制
         var bgMusic = document.getElementById('bgMusic'), musicBtn = document.getElementById('musicBtn');
         var musicTip = document.getElementById('musicTip'), isPlaying = false, hasClicked = false;
         function toggleMusic(event) {
@@ -347,24 +358,39 @@
             if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
+        // 4. 双城天气获取 & 浪漫趟数计算
         async function fetchDualCityWeather() {
+            // 首先将配置好的城市名称和计算好的往返趟数渲染到页面上
+            document.getElementById("zhu-city").innerText = "📍 " + CONFIG.cityZhu;
+            document.getElementById("shi-city").innerText = "📍 " + CONFIG.cityShi;
+            document.getElementById("distance-val").innerText = "跨越 " + CONFIG.distanceKm + " km";
+            
+            // 浪漫计算：总距离除以每天通勤的公里数，并四舍五入取整
+            let commuteTrips = Math.round(CONFIG.distanceKm / CONFIG.commuteKm);
+            document.getElementById("commute-val").innerText = "相当于时女士往返 " + commuteTrips + " 趟";
+
             try {
                 const [resZhu, resShi] = await Promise.all([
-                    fetch(`https://apis.tianapi.com/tianqi/index?key=${API_KEY}&city=昆明&type=1`),
-                    fetch(`https://apis.tianapi.com/tianqi/index?key=${API_KEY}&city=新郑&type=1`)
+                    fetch(`https://apis.tianapi.com/tianqi/index?key=${CONFIG.API_KEY}&city=${CONFIG.cityZhu}&type=1`),
+                    fetch(`https://apis.tianapi.com/tianqi/index?key=${CONFIG.API_KEY}&city=${CONFIG.cityShi}&type=1`)
                 ]);
                 const dataZhu = await resZhu.json(), dataShi = await resShi.json();
+                
+                // 修复重复℃问题：利用正则表达式清理掉天行数据自带的所有单位，然后我们自己加上标准的°C
                 if(dataZhu.code === 200) {
-                    document.getElementById("zhu-temp").innerText = dataZhu.result.real + "°C";
+                    let cleanTemp = dataZhu.result.real.toString().replace(/℃|°C/g, '');
+                    document.getElementById("zhu-temp").innerText = cleanTemp + "°C";
                     document.getElementById("zhu-cond").innerText = dataZhu.result.weather;
                 }
                 if(dataShi.code === 200) {
-                    document.getElementById("shi-temp").innerText = dataShi.result.real + "°C";
+                    let cleanTemp = dataShi.result.real.toString().replace(/℃|°C/g, '');
+                    document.getElementById("shi-temp").innerText = cleanTemp + "°C";
                     document.getElementById("shi-cond").innerText = dataShi.result.weather;
                 }
             } catch (error) { console.error("天气获取失败:", error); }
         }
 
+        // 5. 星象与默契仪表盘
         const tipDatabase = {
           high: ["宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"],
           medium: ["宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", "宜：视频聊天10分钟", "宜：推荐一部好看的电影"],
@@ -377,8 +403,8 @@
         async function updateDailyHoroscopeSync() {
             try {
                 const [resZhu, resShi] = await Promise.all([
-                    fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=aquarius`),
-                    fetch(`https://apis.tianapi.com/star/index?key=${API_KEY}&astro=libra`)
+                    fetch(`https://apis.tianapi.com/star/index?key=${CONFIG.API_KEY}&astro=aquarius`),
+                    fetch(`https://apis.tianapi.com/star/index?key=${CONFIG.API_KEY}&astro=libra`)
                 ]);
                 const resultZhu = await resZhu.json(), resultShi = await resShi.json();
                 let zLove = 85, sLove = 85;
