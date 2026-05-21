@@ -536,94 +536,91 @@
                 if(musicTip) musicTip.style.opacity = '0';
             }, 5000);
         };
-    </script>
-    // 3. JavaScript 逻辑：获取、计算并展示
+    </script>// --- 原本代码的结尾部分 ---
+        window.onload = function() {
+            updateTimer();
+            createDeco(); 
+            
+            setTimeout(function() {
+                if(musicTip) musicTip.style.opacity = '0';
+            }, 5000);
+        };
 
-// --- (1) 自定义文案库 ---
-const tipDatabase = {
-  high: [ // 90-100分
-    "宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", 
-    "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"
-  ],
-  medium: [ // 80-89分
-    "宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", 
-    "宜：视频聊天10分钟", "宜：推荐一部好看的电影"
-  ],
-  low: [ // < 80分
-    "忌：提起旧事", "宜：一个温柔的拥抱", "宜：耐心地倾听对方吐槽", 
-    "宜：给对方做一个搞怪表情", "宜：一起打一把游戏"
-  ]
-};
+        // ================= 这里往下是你新加的星象代码，我帮你合并进来了 =================
 
-// --- (2) 模拟 API 数据获取函数 ---
-// 在真实环境中，你会用 fetch() 这里从 API 获取数据。
-// 这里我们模拟返回朱先生和时女士的每日运势 JSON 数据。
-async function mockFetchHoroscopeData() {
-  console.log("正在模拟从后台抓取星座运势数据...");
-  
-  // 模拟 API 返回的朱先生(水瓶座)今日运势
-  const mrZhuData = {
-    sign: "水瓶座",
-    love_index: 88, // 爱情指数
-    overall_index: 92 // 综合指数
-  };
+        // 3. JavaScript 逻辑：获取、计算并展示
 
-  // 模拟 API 返回的时女士(天秤座)今日运势
-  const msShiData = {
-    sign: "天秤座",
-    love_index: 94,
-    overall_index: 90
-  };
+        // --- (1) 自定义文案库 ---
+        const tipDatabase = {
+          high: [ // 90-100分
+            "宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", 
+            "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"
+          ],
+          medium: [ // 80-89分
+            "宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", 
+            "宜：视频聊天10分钟", "宜：推荐一部好看的电影"
+          ],
+          low: [ // < 80分
+            "忌：提起旧事", "宜：一个温柔的拥抱", "宜：耐心地倾听对方吐槽", 
+            "宜：给对方做一个搞怪表情", "宜：一起打一把游戏"
+          ]
+        };
 
-  // 模拟一个网络延迟
-  await new Promise(resolve => setTimeout(resolve, 500)); 
+        // --- (2) 模拟 API 数据获取函数 ---
+        async function mockFetchHoroscopeData() {
+          console.log("正在模拟从后台抓取星座运势数据...");
+          
+          const mrZhuData = {
+            sign: "水瓶座",
+            love_index: 88,
+            overall_index: 92
+          };
 
-  return { mrZhu: mrZhuData, msShi: msShiData };
-}
+          const msShiData = {
+            sign: "天秤座",
+            love_index: 94,
+            overall_index: 90
+          };
 
-// --- (3) 核心逻辑：计算并更新 UI ---
-async function updateDailyHoroscopeSync() {
-  // 1. 获取数据
-  let data;
-  try {
-    data = await mockFetchHoroscopeData();
-  } catch (error) {
-    console.error("获取星座数据失败:", error);
-    document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
-    return;
-  }
+          await new Promise(resolve => setTimeout(resolve, 500)); 
 
-  // 2. 极简处理逻辑：计算默契指数
-  // 基础分是两人爱情指数的平均值
-  let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
-  // 加入一点随机波动 (-2 到 +2)，让分数每天都不一样，增加新鲜感
-  let randomOffset = (Math.random() * 4) - 2; 
-  let finalSyncScore = Math.round(baseScore + randomOffset);
-  // 分数封顶，不超过100
-  if (finalSyncScore > 100) finalSyncScore = 100;
+          return { mrZhu: mrZhuData, msShi: msShiData };
+        }
 
-  // 3. 匹配自定义文案
-  let tipList;
-  if (finalSyncScore >= 90) {
-    tipList = tipDatabase.high;
-  } else if (finalSyncScore >= 80) {
-    tipList = tipDatabase.medium;
-  } else {
-    tipList = tipDatabase.low;
-  }
-  // 从匹配到的列表里随机选一条
-  const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+        // --- (3) 核心逻辑：计算并更新 UI ---
+        async function updateDailyHoroscopeSync() {
+          let data;
+          try {
+            data = await mockFetchHoroscopeData();
+          } catch (error) {
+            console.error("获取星座数据失败:", error);
+            document.getElementById("horoscope-tip-text").innerText = "今天的星轨有点乱，默契需要你们自己来写。";
+            return;
+          }
 
-  // 4. 更新前端 UI
-  document.getElementById("sync-score-num").innerText = finalSyncScore;
-  document.getElementById("horoscope-tip-text").innerText = randomTip;
-  console.log(`今日默契指数：${finalSyncScore}%, 文案：${randomTip}`);
-}
+          let baseScore = (data.mrZhu.love_index + data.msShi.love_index) / 2;
+          let randomOffset = (Math.random() * 4) - 2; 
+          let finalSyncScore = Math.round(baseScore + randomOffset);
+          if (finalSyncScore > 100) finalSyncScore = 100;
 
-// 页面加载完成后立即执行
-document.addEventListener("DOMContentLoaded", function() {
-  updateDailyHoroscopeSync();
-});
-      </script>
-</body>
+          let tipList;
+          if (finalSyncScore >= 90) {
+            tipList = tipDatabase.high;
+          } else if (finalSyncScore >= 80) {
+            tipList = tipDatabase.medium;
+          } else {
+            tipList = tipDatabase.low;
+          }
+          const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+
+          document.getElementById("sync-score-num").innerText = finalSyncScore;
+          document.getElementById("horoscope-tip-text").innerText = randomTip;
+        }
+
+        // 页面加载完成后立即执行星象更新
+        document.addEventListener("DOMContentLoaded", function() {
+          updateDailyHoroscopeSync();
+        });
+
+    </script> </body>
 </html>
