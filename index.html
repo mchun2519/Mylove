@@ -73,11 +73,7 @@
             text-align: center; color: #fff; position: relative; 
         }
 
-        /* SVG 动画与标题 */
-        .cats-box {
-            position: absolute; top: -108px; left: 50%; transform: translateX(-50%);
-            width: 240px; height: 110px; z-index: 20; 
-        }
+        .cats-box { position: absolute; top: -108px; left: 50%; transform: translateX(-50%); width: 240px; height: 110px; z-index: 20; }
         @keyframes heart-beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .heart-beat-group { transform-origin: 120px 75px; animation: heart-beat 1.2s ease-in-out infinite; }
         .cats-box svg { animation: breathe 3s ease-in-out infinite alternate; }
@@ -89,14 +85,32 @@
         .line-one { color: #666; font-size: 0.85rem; white-space: nowrap; }
         .line-two { color: #555; font-size: 1rem; font-weight: bold; }
 
-        /* 倒计时 */
         .timer-box { color: #333; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .days-circle {
-            background: #ff6b81; color: #fff; width: 45px; height: 45px;
-            border-radius: 50%; display: inline-flex; align-items: center;
-            justify-content: center; font-size: 1.4rem; font-weight: bold;
-            margin: 0 10px; box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
+            background: #ff6b81; color: #fff; width: 45px; height: 45px; border-radius: 50%; 
+            display: inline-flex; align-items: center; justify-content: center; font-size: 1.4rem; 
+            font-weight: bold; margin: 0 10px; box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
+
+        /* === 🌟 新增：古典诗词模块样式 🌟 === */
+        .poetry-container {
+            position: relative;
+            background: linear-gradient(to right, rgba(255, 240, 245, 0.4), rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.4));
+            border-radius: 12px; padding: 15px 25px 12px 25px; margin: 0 auto 20px auto;
+            max-width: 320px; text-align: center;
+        }
+        .poetry-quote-left, .poetry-quote-right {
+            position: absolute; font-size: 32px; color: rgba(255, 107, 129, 0.2);
+            font-family: 'Times New Roman', serif; line-height: 1;
+        }
+        .poetry-quote-left { top: 5px; left: 10px; }
+        .poetry-quote-right { bottom: -15px; right: 10px; }
+        .poetry-content {
+            font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 6px;
+            font-family: 'KaiTi', '楷体', serif; /* 古典楷体字 */
+            font-weight: bold; letter-spacing: 1px;
+        }
+        .poetry-author { font-size: 11px; color: #999; text-align: right; padding-right: 5px; }
 
         /* === 4. 双城天气 & 浪漫算法 === */
         .weather-container {
@@ -109,19 +123,14 @@
         .city-name { font-size: 11px; color: #777; margin-bottom: 4px; font-weight: bold; }
         .weather-temp { font-size: 18px; font-weight: bold; color: #ff6b81; margin-bottom: 2px; }
         .weather-cond { font-size: 11px; color: #666; }
-        
         .weather-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 44%; }
         .plane-icon { font-size: 20px; animation: float-horizontal 2.5s ease-in-out infinite alternate; }
         .distance-text { 
-            font-size: 10px; color: #ff6b81; background: #fff0f5; 
-            padding: 2px 6px; border-radius: 8px; margin-top: 4px; 
-            font-weight: bold; white-space: nowrap; box-shadow: inset 0 0 4px rgba(255,182,193,0.3);
+            font-size: 10px; color: #ff6b81; background: #fff0f5; padding: 2px 6px; 
+            border-radius: 8px; margin-top: 4px; font-weight: bold; white-space: nowrap; 
+            box-shadow: inset 0 0 4px rgba(255,182,193,0.3);
         }
-        /* 浪漫通勤趟数文字 */
-        .commute-text {
-            font-size: 9px; color: #999; margin-top: 5px; font-weight: bold;
-            white-space: nowrap; transform: scale(0.95);
-        }
+        .commute-text { font-size: 9px; color: #999; margin-top: 5px; font-weight: bold; white-space: nowrap; transform: scale(0.95); }
         @keyframes float-horizontal { 0% { transform: translateX(-5px); } 100% { transform: translateX(5px); } }
 
         /* === 5. 星象仪表盘 === */
@@ -131,20 +140,13 @@
             box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15); text-align: center;
         }
         .horo-top-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .zodiac-person {
-            background: #fff0f5; padding: 10px; border-radius: 12px;
-            width: 42%; box-shadow: inset 0 0 8px rgba(255, 182, 193, 0.2);
-        }
-        .zodiac-title {
-            font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; 
-            padding-bottom: 5px; border-bottom: 1px dashed rgba(255, 182, 193, 0.6);
-        }
+        .zodiac-person { background: #fff0f5; padding: 10px; border-radius: 12px; width: 42%; box-shadow: inset 0 0 8px rgba(255, 182, 193, 0.2); }
+        .zodiac-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px dashed rgba(255, 182, 193, 0.6); }
         .zodiac-icon { font-size: 16px; vertical-align: middle; }
         .zodiac-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 2px; }
         .stat-item { font-size: 10px; color: #666; white-space: nowrap; }
         .stat-item span { font-weight: bold; color: #ff6b81; font-size: 11px; }
         .heart-pulse { font-size: 20px; color: #ff6b81; animation: heart-beat 1.5s infinite; }
-        
         .horoscope-body { border-top: 1px dashed rgba(255, 107, 129, 0.3); padding-top: 12px; }
         .sync-score { font-size: 13px; color: #555; margin-bottom: 6px; }
         #sync-score-num { font-size: 18px; font-weight: bold; color: #ff6b81; }
@@ -154,10 +156,9 @@
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .menu-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-decoration: none; background: #fff; color: #555;
-            border: 1.5px solid #ffe4e1; padding: 10px 0; border-radius: 16px;
-            font-size: 0.95rem; font-weight: bold; box-shadow: 0 4px 10px rgba(255, 182, 193, 0.15);
-            transition: all 0.2s ease;
+            text-decoration: none; background: #fff; color: #555; border: 1.5px solid #ffe4e1; 
+            padding: 10px 0; border-radius: 16px; font-size: 0.95rem; font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.15); transition: all 0.2s ease;
         }
         .menu-btn:hover { transform: translateY(-2px); background: #fff0f5; border-color: #ffb6c1; color: #ff6b81; }
         .footer { margin-top: 20px; font-size: 0.7rem; color: #b0a4a6; text-align: center; line-height: 1.5; padding: 0 5px; }
@@ -165,10 +166,7 @@
 </head>
 <body onclick="firstClickPlay()">
 
-    <audio id="bgMusic" loop>
-        <source src="bgm.mp3" type="audio/mpeg">
-    </audio>
-
+    <audio id="bgMusic" loop><source src="bgm.mp3" type="audio/mpeg"></audio>
     <div id="musicBtn" class="music-btn" onclick="toggleMusic(event)">🎵</div>
     <div id="musicTip" class="music-tip">点我播放音乐哦</div>
     <div class="deco-container" id="deco-box"></div>
@@ -243,19 +241,24 @@
                     我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
                 </div>
 
+                <div class="poetry-container">
+                    <div class="poetry-quote-left">“</div>
+                    <div class="poetry-content" id="poetry-content">正在翻阅云端诗卷...</div>
+                    <div class="poetry-author" id="poetry-author">--</div>
+                    <div class="poetry-quote-right">”</div>
+                </div>
+
                 <div class="weather-container">
                     <div class="weather-box">
                         <div class="city-name" id="zhu-city">📍 --</div>
                         <div class="weather-temp" id="zhu-temp">--°C</div>
                         <div class="weather-cond" id="zhu-cond">--</div>
                     </div>
-                    
                     <div class="weather-divider">
                         <div class="plane-icon">✈️</div>
                         <div class="distance-text" id="distance-val">跨越 -- km</div>
                         <div class="commute-text" id="commute-val">相当于上班往返 -- 趟</div>
                     </div>
-                    
                     <div class="weather-box">
                         <div class="city-name" id="shi-city">📍 --</div>
                         <div class="weather-temp" id="shi-temp">--°C</div>
@@ -274,9 +277,7 @@
                                 <div class="stat-item">财运 <span id="zhu-wealth">--</span>%</div>
                             </div>
                         </div>
-                        
                         <div class="heart-pulse">❤️</div>
-                        
                         <div class="zodiac-person">
                             <div class="zodiac-title"><span class="zodiac-icon">♎️</span> 天秤女</div>
                             <div class="zodiac-stats">
@@ -287,7 +288,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="horoscope-body">
                         <div class="sync-score">今日专属默契 <span id="sync-score-num">--</span>%</div>
                         <div class="horoscope-tip">宜忌：<span id="horoscope-tip-text">...正在与星轨交汇...</span></div>
@@ -308,15 +308,15 @@
 
     <script>
         // ====================================================================
-        // 🌟 核心配置区 🌟 (以后换城市或改距离，只需要在这里修改即可，全站自动计算)
+        // 🌟 核心配置区 🌟 
         // ====================================================================
         const CONFIG = {
             API_KEY: "f88105d5886260b30df1c7e6b74128e0", 
             anniversary: new Date(2026, 1, 21), 
-            cityZhu: "昆明",          // 朱先生所在的城市
-            cityShi: "新郑",          // 时女士所在的城市 
-            distanceKm: 1520,         // 两座城市的现实距离
-            commuteKm: 8              // 时女士每天上下班往返的总公里数
+            cityZhu: "昆明",          
+            cityShi: "新郑",          
+            distanceKm: 1520,         
+            commuteKm: 8              
         };
 
         // 1. 倒计时
@@ -358,16 +358,38 @@
             if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
-        // 4. 双城天气获取 & 浪漫趟数计算
+        // 4. 🌟 新增：获取情绪古诗词 🌟
+        async function fetchDailyPoetry() {
+            try {
+                const res = await fetch(`https://apis.tianapi.com/moodpoetry/index?key=${CONFIG.API_KEY}`);
+                const data = await res.json();
+                if(data.code === 200) {
+                    // 天行数据有时返回列表，有时返回单对象，做个兼容
+                    let poemData = data.result.list ? data.result.list[0] : data.result;
+                    document.getElementById("poetry-content").innerText = poemData.content;
+                    
+                    let sourceText = "";
+                    if (poemData.author) sourceText += "——" + poemData.author;
+                    if (poemData.source) sourceText += "《" + poemData.source + "》";
+                    document.getElementById("poetry-author").innerText = sourceText || "——佚名";
+                } else {
+                    throw new Error("诗词接口未申请或达到上限");
+                }
+            } catch (error) {
+                console.error("诗词获取失败:", error);
+                // 浪漫的保底方案：如果接口用完，显示这段专属的异地恋诗句
+                document.getElementById("poetry-content").innerText = "我有所念人，隔在远远乡。\n我有所感事，结在深深肠。";
+                document.getElementById("poetry-author").innerText = "——白居易《夜雨》";
+            }
+        }
+
+        // 5. 双城天气获取 & 浪漫趟数计算
         async function fetchDualCityWeather() {
-            // 首先将配置好的城市名称和计算好的往返趟数渲染到页面上
             document.getElementById("zhu-city").innerText = "📍 " + CONFIG.cityZhu;
             document.getElementById("shi-city").innerText = "📍 " + CONFIG.cityShi;
             document.getElementById("distance-val").innerText = "跨越 " + CONFIG.distanceKm + " km";
-            
-            // 浪漫计算：总距离除以每天通勤的公里数，并四舍五入取整
             let commuteTrips = Math.round(CONFIG.distanceKm / CONFIG.commuteKm);
-            document.getElementById("commute-val").innerText = "相当于时女士从家到公司往返 " + commuteTrips + " 趟";
+            document.getElementById("commute-val").innerText = "相当于时女士往返 " + commuteTrips + " 趟";
 
             try {
                 const [resZhu, resShi] = await Promise.all([
@@ -375,8 +397,6 @@
                     fetch(`https://apis.tianapi.com/tianqi/index?key=${CONFIG.API_KEY}&city=${CONFIG.cityShi}&type=1`)
                 ]);
                 const dataZhu = await resZhu.json(), dataShi = await resShi.json();
-                
-                // 修复重复℃问题：利用正则表达式清理掉天行数据自带的所有单位，然后我们自己加上标准的°C
                 if(dataZhu.code === 200) {
                     let cleanTemp = dataZhu.result.real.toString().replace(/℃|°C/g, '');
                     document.getElementById("zhu-temp").innerText = cleanTemp + "°C";
@@ -390,7 +410,7 @@
             } catch (error) { console.error("天气获取失败:", error); }
         }
 
-        // 5. 星象与默契仪表盘
+        // 6. 星象与默契仪表盘
         const tipDatabase = {
           high: ["宜：一起喝杯奶茶", "宜：互相交换一个秘密", "宜：规划下一次旅行", "宜：给对方起一个专属昵称", "宜：手牵手在街上闲逛"],
           medium: ["宜：给对方买个小礼物", "宜：在夕阳下散步", "宜：分享今天的趣事", "宜：视频聊天10分钟", "宜：推荐一部好看的电影"],
@@ -442,8 +462,9 @@
             updateTimer();
             createDeco(); 
             setTimeout(function() { if(musicTip) musicTip.style.opacity = '0'; }, 5000);
-            fetchDualCityWeather(); 
-            updateDailyHoroscopeSync(); 
+            fetchDailyPoetry();       // 启动古诗词盲盒
+            fetchDualCityWeather();   // 启动双城天气
+            updateDailyHoroscopeSync(); // 启动星象
         };
     </script>
 </body>
