@@ -389,7 +389,7 @@
             document.getElementById("shi-city").innerText = "📍 " + CONFIG.cityShi;
             document.getElementById("distance-val").innerText = "跨越 " + CONFIG.distanceKm + " km";
             let commuteTrips = Math.round(CONFIG.distanceKm / CONFIG.commuteKm);
-            document.getElementById("commute-val").innerText = "相当于时女士往返 " + commuteTrips + " 趟";
+            document.getElementById("commute-val").innerText = "相当于时泡泡女士从家到公司往返 " + commuteTrips + " 趟";
 
             try {
                 const [resZhu, resShi] = await Promise.all([
