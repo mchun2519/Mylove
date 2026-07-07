@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 晴晴大王与南锐的恋爱秘密基地 🎀</title>
+    <title>🎀 晴晴大王与南锐の恋爱秘密基地 🎀</title>
     <style>
         /* === 1. 全局与基础样式 === */
         body, html {
@@ -81,9 +81,10 @@
 
         .header-title { font-size: 1.3rem; font-weight: bold; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .card-content { padding: 25px 20px 15px 20px; text-align: center; }
-        .subtitle { margin-bottom: 25px; display: flex; flex-direction: column; gap: 8px; }
+        
+        /* 动态随机情话的外层包裹框 */
+        .subtitle { margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; }
         .line-one { color: #666; font-size: 0.85rem; white-space: nowrap; }
-        .line-two { color: #555; font-size: 1rem; font-weight: bold; }
 
         .timer-box { color: #333; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .days-circle {
@@ -152,7 +153,7 @@
         #sync-score-num { font-size: 18px; font-weight: bold; color: #ff6b81; }
         .horoscope-tip { font-size: 11px; color: #777; line-height: 1.4; }
 
-        /* === 吃喝大作战卡片样式 === */
+        /* === 6. 吃喝大作战卡片样式 === */
         .love-decision-card {
             background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
             padding: 16px 15px; margin: 0 auto 25px auto; max-width: 340px; 
@@ -190,7 +191,7 @@
         .love-action-btn:hover { background: #fff0f5; border-color: #ffb6c1; color: #ff6b81; }
         .love-action-btn:active { transform: scale(0.97); }
 
-        /* === 6. 底部菜单 === */
+        /* === 7. 底部菜单 === */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .menu-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -270,12 +271,12 @@
             </div>
 
             <div class="card-content">
-             <div class="subtitle" style="margin-bottom: 15px;">
-    <!-- 🌟 删除了前两句，直接以这句精美的艺术字情话开始 -->
-    <div class="line-one" style="margin-top: 10px; color: #ff6b81; font-size: 1.35rem; font-family: 'STXingkai', '华文行楷', 'Comic Sans MS', cursive; letter-spacing: 2px; line-height: 1.4;">
-        <strong>听四季的声音，数着有你的日子。不知不觉——</strong>
-    </div>
-</div>
+                <!-- 🌟 艺术字体随机情话展示区 -->
+                <div class="subtitle" style="margin-bottom: 15px;">
+                    <div id="random-love-line" style="margin-top: 10px; color: #ff6b81; font-size: 1.35rem; font-family: 'STXingkai', '华文行楷', 'Comic Sans MS', cursive; letter-spacing: 2px; line-height: 1.4;">
+                        <strong>正在读取爱意...</strong>
+                    </div>
+                </div>
 
                 <div class="timer-box">
                     我们已经在一起 <span class="days-circle" id="days-counter">0</span> 天
@@ -353,10 +354,10 @@
                         </button>
                     </div>
                     <div class="love-display-area">
-                        <h3 id="love-result-text">今天吃/喝点什么呢？</h3>
+                        <h3 id="love-result-text">今天和异地的ta吃/喝点什么呢？</h3>
                     </div>
                     <button class="love-action-btn" onclick="getLoveRandomChoice()">
-                        <span>🎲 帮我们 decide</span>
+                        <span>🎲 帮我们决定</span>
                     </button>
                 </div>
 
@@ -385,7 +386,7 @@
             commuteKm: 8              
         };
 
-        // 饮品菜单中已移除带有红豆的款式
+        // 饮品与美食数据（已精准剔除红豆选项）
         const loveMenuData = {
             milktea: [
                 "瑞幸：生椰拿铁 ☕",
@@ -551,7 +552,18 @@
             }
         }
 
-        // 吃喝卡片专用函数
+        // 🌟 核心新增：每次刷新随机切换情话盲盒
+        function showRandomLoveLine() {
+            const loveLines = [
+                "<strong>纵使山河相隔，爱意也从未缺席。很高兴——</strong>",
+                "<strong>听四季的声音，数着有你的日子。不知不觉——</strong>",
+                "<strong>风在替我见你，而日子在记录我们。一眨眼——</strong>"
+            ];
+            const randomIndex = Math.floor(Math.random() * loveLines.length);
+            document.getElementById("random-love-line").innerHTML = loveLines[randomIndex];
+        }
+
+        // 吃喝卡片专用控制函数
         function switchLoveTab(type) {
             currentLoveType = type;
             document.getElementById('btn-milktea').classList.toggle('active', type === 'milktea');
@@ -576,10 +588,11 @@
             }, 80);
         }
 
-        // 初始化加载
+        // 统一页面加载流
         window.onload = function() {
             updateTimer();
             createDeco(); 
+            showRandomLoveLine();     // 👈 初始化载入情话盲盒
             setTimeout(function() { if(musicTip) musicTip.style.opacity = '0'; }, 5000);
             fetchDailyPoetry();       
             fetchDualCityWeather();   
