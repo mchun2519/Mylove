@@ -92,7 +92,7 @@
             font-weight: bold; margin: 0 10px; box-shadow: 0 4px 10px rgba(255, 107, 129, 0.4);
         }
 
-        /* === 🌟 新增：古典诗词模块样式 🌟 === */
+        /* === 古典诗词模块样式 === */
         .poetry-container {
             position: relative;
             background: linear-gradient(to right, rgba(255, 240, 245, 0.4), rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.4));
@@ -107,7 +107,7 @@
         .poetry-quote-right { bottom: -15px; right: 10px; }
         .poetry-content {
             font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 6px;
-            font-family: 'KaiTi', '楷体', serif; /* 古典楷体字 */
+            font-family: 'KaiTi', '楷体', serif; 
             font-weight: bold; letter-spacing: 1px;
         }
         .poetry-author { font-size: 11px; color: #999; text-align: right; padding-right: 5px; }
@@ -136,7 +136,7 @@
         /* === 5. 星象仪表盘 === */
         .horoscope-container {
             background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
-            padding: 16px 15px; margin: 0 auto 25px auto; max-width: 340px; 
+            padding: 16px 15px; margin: 0 auto 20px auto; max-width: 340px; 
             box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15); text-align: center;
         }
         .horo-top-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -151,6 +151,44 @@
         .sync-score { font-size: 13px; color: #555; margin-bottom: 6px; }
         #sync-score-num { font-size: 18px; font-weight: bold; color: #ff6b81; }
         .horoscope-tip { font-size: 11px; color: #777; line-height: 1.4; }
+
+        /* === 吃喝大作战卡片样式 === */
+        .love-decision-card {
+            background-color: rgba(255, 255, 255, 0.85); border-radius: 16px;
+            padding: 16px 15px; margin: 0 auto 25px auto; max-width: 340px; 
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15); text-align: center;
+            box-sizing: border-box; border: 1px solid rgba(255, 192, 203, 0.2);
+        }
+        .love-card-title {
+            font-size: 13px; font-weight: bold; color: #ff6b81; margin-bottom: 12px;
+            letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;
+        }
+        .love-tab-buttons { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
+        .love-tab-btn {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            border: 1px solid #ffe4e8; background: #fff5f6; padding: 8px 0;
+            border-radius: 12px; cursor: pointer; color: #ff758c; font-size: 0.9rem;
+            font-weight: bold; transition: all 0.25s ease;
+        }
+        .love-icon { width: 15px; height: 15px; margin-right: 5px; }
+        .love-tab-btn.active {
+            background: #ff758c; color: white; border-color: #ff758c;
+            box-shadow: 0 3px 8px rgba(255, 117, 140, 0.3);
+        }
+        .love-display-area {
+            height: 75px; display: flex; align-items: center; justify-content: center;
+            background: #fff9fa; border: 1px dashed #ffd0d6; border-radius: 12px;
+            margin-bottom: 15px; padding: 0 10px; box-sizing: border-box;
+        }
+        #love-result-text { color: #ff6584; font-size: 1.05rem; margin: 0; font-weight: bold; line-height: 1.4; }
+        .love-action-btn {
+            width: 100%; padding: 10px 0; border: 1.5px solid #ffe4e1; background: white;
+            color: #555; font-size: 0.95rem; border-radius: 16px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.15); transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .love-action-btn:hover { background: #fff0f5; border-color: #ffb6c1; color: #ff6b81; }
+        .love-action-btn:active { transform: scale(0.97); }
 
         /* === 6. 底部菜单 === */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -233,7 +271,7 @@
 
             <div class="card-content">
                 <div class="subtitle">
-                    <div class="line-one">我不是很会说话，但我有一句真心话想对你说：</div>
+                    <div class="line-one">我不是很会说话，但我有一句真心话想对告诉你：</div>
                     <div class="line-two">我今天比昨天更喜欢你了。</div>
                 </div>
 
@@ -294,6 +332,32 @@
                     </div>
                 </div>
 
+                <!-- 今天吃喝大作战卡片 -->
+                <div class="love-decision-card">
+                    <div class="love-card-title">✨ 今天吃喝大作战 ✨</div>
+                    <div class="love-tab-buttons">
+                        <button class="love-tab-btn active" id="btn-milktea" onclick="switchLoveTab('milktea')">
+                            <svg class="love-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/>
+                                <line x1="6" y1="2" x2="10" y2="8"/>
+                            </svg>
+                            喝点饮品
+                        </button>
+                        <button class="love-tab-btn" id="btn-food" onclick="switchLoveTab('food')">
+                            <svg class="love-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 12.5a5.5 5.5 0 1 1 11 0v.5H2v-.5zM2 16h11v2H2v-2zM3 20h9a1 1 0 0 1 1 1v1H2v-1a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            吃点好吃的
+                        </button>
+                    </div>
+                    <div class="love-display-area">
+                        <h3 id="love-result-text">今天吃/喝点什么呢？</h3>
+                    </div>
+                    <button class="love-action-btn" onclick="getLoveRandomChoice()">
+                        <span>🎲 帮我们 decide</span>
+                    </button>
+                </div>
+
                 <div class="menu-grid">
                     <a href="letter.html" class="menu-btn">📩 云端来信</a>
                     <a href="dabing.html" class="menu-btn">🥞 大饼</a>
@@ -313,11 +377,41 @@
         const CONFIG = {
             API_KEY: "f88105d5886260b30df1c7e6b74128e0", 
             anniversary: new Date(2026, 1, 21), 
-            cityZhu: "无锡",          
-            cityShi: "郑州",          
-            distanceKm: 780,         
+            cityZhu: "无锡",           
+            cityShi: "郑州",           
+            distanceKm: 780,          
             commuteKm: 8              
         };
+
+        // 饮品菜单中已移除带有红豆的款式
+        const loveMenuData = {
+            milktea: [
+                "瑞幸：生椰拿铁 ☕",
+                "瑞幸：陨石拿铁 ☕",
+                "蜜雪冰城：冰鲜柠檬水 🍋",
+                "蜜雪冰城：芋圆葡萄 🍇",
+                "沪上阿姨：绿豆牛乳冰 🥛",
+                "沪上阿姨：大红袍奶茶 🧋",
+                "茶百道：杨枝甘露 🥭",
+                "茶百道：青提茉莉 🟢",
+                "书亦烧仙草：书亦烧仙草 🥣",
+                "古茗：芝士多肉葡萄 🍇",
+                "益禾堂：益禾烤奶 🧋",
+                "挪瓦咖啡：生椰拿铁 ☕",
+                "挪瓦咖啡：白桃拿铁 🍑",
+                "幸运咖：椰椰拿铁 ☕",
+                "幸运咖：招牌冰美式 ☕"
+            ],
+            food: [
+                "香辣鸡腿堡套餐 🍔", 
+                "麻辣烫（多放麻酱） 🍲", 
+                "黄焖鸡米饭 🍗", 
+                "热气腾腾的饺子 🥟", 
+                "螺蛳粉（加炸蛋） 🍜",
+                "美味酸菜鱼 🐟"
+            ]
+        };
+        let currentLoveType = 'milktea';
 
         // 1. 倒计时
         function updateTimer() {
@@ -358,13 +452,12 @@
             if (!hasClicked && !isPlaying) { bgMusic.play(); musicBtn.classList.add('playing'); if(musicTip) musicTip.style.opacity = '0'; isPlaying = true; hasClicked = true; }
         }
 
-        // 4. 🌟 新增：获取情绪古诗词 🌟
+        // 4. 获取情绪古诗词
         async function fetchDailyPoetry() {
             try {
                 const res = await fetch(`https://apis.tianapi.com/moodpoetry/index?key=${CONFIG.API_KEY}`);
                 const data = await res.json();
                 if(data.code === 200) {
-                    // 天行数据有时返回列表，有时返回单对象，做个兼容
                     let poemData = data.result.list ? data.result.list[0] : data.result;
                     document.getElementById("poetry-content").innerText = poemData.content;
                     
@@ -377,7 +470,6 @@
                 }
             } catch (error) {
                 console.error("诗词获取失败:", error);
-                // 浪漫的保底方案：如果接口用完，显示这段专属的异地恋诗句
                 document.getElementById("poetry-content").innerText = "我有所念人，隔在远远乡。\n我有所感事，结在深深肠。";
                 document.getElementById("poetry-author").innerText = "——白居易《夜雨》";
             }
@@ -458,13 +550,39 @@
             }
         }
 
+        // 吃喝卡片专用函数
+        function switchLoveTab(type) {
+            currentLoveType = type;
+            document.getElementById('btn-milktea').classList.toggle('active', type === 'milktea');
+            document.getElementById('btn-food').classList.toggle('active', type === 'food');
+            document.getElementById('love-result-text').innerText = "今天吃/喝点什么呢？";
+        }
+
+        function getLoveRandomChoice() {
+            const list = loveMenuData[currentLoveType];
+            const randomIndex = Math.floor(Math.random() * list.length);
+            const resultElement = document.getElementById('love-result-text');
+            
+            let counter = 0;
+            const interval = setInterval(() => {
+                const tempIndex = Math.floor(Math.random() * list.length);
+                resultElement.innerText = list[tempIndex];
+                counter++;
+                if (counter > 8) {
+                    clearInterval(interval);
+                    resultElement.innerHTML = "❤️ " + list[randomIndex] + " ❤️";
+                }
+            }, 80);
+        }
+
+        // 初始化加载
         window.onload = function() {
             updateTimer();
             createDeco(); 
             setTimeout(function() { if(musicTip) musicTip.style.opacity = '0'; }, 5000);
-            fetchDailyPoetry();       // 启动古诗词盲盒
-            fetchDualCityWeather();   // 启动双城天气
-            updateDailyHoroscopeSync(); // 启动星象
+            fetchDailyPoetry();       
+            fetchDualCityWeather();   
+            updateDailyHoroscopeSync(); 
         };
     </script>
 </body>
